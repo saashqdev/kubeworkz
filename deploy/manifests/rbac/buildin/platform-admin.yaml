@@ -1,0 +1,17 @@
+# platform-admin has all privileges used
+# of ClusterRoleBinding.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: platform-admin
+  labels:
+    kubeworkz.io/rbac: "true"
+    kubeworkz.io/role: "platform"
+  annotations:
+    kubeworkz.io/sync: "true"
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-to-platform-admin: "true"
+rules: []
+---

@@ -1,0 +1,92 @@
+/*
+Copyright 2024 KubeWorkz Authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package job
+
+import (
+	"github.com/saashqdev/kubeworkz/pkg/utils/filter"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	batchv1 "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/saashqdev/kubeworkz/pkg/clients"
+	"github.com/saashqdev/kubeworkz/pkg/multicluster"
+	"github.com/saashqdev/kubeworkz/pkg/multicluster/client/fake"
+	"github.com/saashqdev/kubeworkz/pkg/utils/constants"
+)
+
+var _ = Describe("Job", func() {
+	var (
+		ns      = "namespace-test"
+		job1    batchv1.Job
+		job2    batchv1.Job
+		jobList batchv1.JobList
+	)
+	BeforeEach(func() {
+		job1 = batchv1.Job{
+			TypeMeta:   metav1.TypeMeta{Kind: "Job", APIVersion: "batch/v1"},
+			ObjectMeta: metav1.ObjectMeta{Name: "job1", Namespace: ns, UID: "jobid1"},
+			Status: batchv1.JobStatus{
+				Conditions: []batchv1.JobCondition{
+					{Type: "Complete", Status: "True"},
+				},
+			},
+		}
+		job2 = batchv1.Job{
+			TypeMeta:   metav1.TypeMeta{Kind: "Job", APIVersion: "batch/v1"},
+			ObjectMeta: metav1.ObjectMeta{Name: "job2", Namespace: ns, UID: "jobid2"},
+			Status:     batchv1.JobStatus{Active: 0},
+		}
+		jobList = batchv1.JobList{Items: []batchv1.Job{job1, job2}}
+	})
+	JustBeforeEach(func() {
+		scheme := runtime.NewScheme()
+		corev1.AddToScheme(scheme)
+		batchv1.AddToScheme(scheme)
+		opts := &fake.Options{
+			Scheme:               scheme,
+			Objs:                 []client.Object{},
+			ClientSetRuntimeObjs: []runtime.Object{},
+			Lists:                []client.ObjectList{&jobList},
+		}
+		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
+		clients.InitCubeClientSetWithOpts(nil)
+	})
+
+	It("test get job extend info", func() {
+		client := clients.Interface().Kubernetes(constants.LocalCluster)
+		Expect(client).NotTo(BeNil())
+		job := NewJob(client, ns, &filter.Condition{
+			Limit:  10,
+			Offset: 0,
+		})
+		ret, err := job.getExtendJobs()
+		Expect(err).To(BeNil())
+		Expect(ret.Object["total"]).To(Equal(2))
+		items := ret.Object["items"].([]unstructured.Unstructured)
+		s := items[0].Object["extendInfo"].(map[string]interface{})["status"]
+		Expect(s).To(Equal("Complete"))
+		s = items[1].Object["extendInfo"].(map[string]interface{})["status"]
+		Expect(s).To(Equal("Pending"))
+
+	})
+})

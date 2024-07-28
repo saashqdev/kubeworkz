@@ -1,0 +1,141 @@
+/*
+Copyright 2024 KubeWorkz Authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package job
+
+import (
+	"context"
+
+	batchv1 "k8s.io/api/batch/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	resourcemanage "github.com/saashqdev/kubeworkz/pkg/apiserver/kubeapi/resourcemanage/handle"
+	"github.com/saashqdev/kubeworkz/pkg/apiserver/kubeapi/resourcemanage/resources"
+	"github.com/saashqdev/kubeworkz/pkg/apiserver/kubeapi/resourcemanage/resources/enum"
+	"github.com/saashqdev/kubeworkz/pkg/clients"
+	"github.com/saashqdev/kubeworkz/pkg/clog"
+	mgrclient "github.com/saashqdev/kubeworkz/pkg/multicluster/client"
+	"github.com/saashqdev/kubeworkz/pkg/utils/errcode"
+	"github.com/saashqdev/kubeworkz/pkg/utils/filter"
+)
+
+type Job struct {
+	ctx             context.Context
+	client          mgrclient.Client
+	namespace       string
+	filterCondition *filter.Condition
+}
+
+func init() {
+	resourcemanage.SetExtendHandler(enum.JobResourceType, handle)
+}
+
+func handle(param resourcemanage.ExtendContext) (interface{}, *errcode.ErrorInfo) {
+	access := resources.NewSimpleAccess(param.Cluster, param.Username, param.Namespace)
+	if allow := access.AccessAllow("batch", "jobs", "list"); !allow {
+		return nil, errcode.ForbiddenErr
+	}
+	kubernetes := clients.Interface().Kubernetes(param.Cluster)
+	if kubernetes == nil {
+		return nil, errcode.ClusterNotFoundError(param.Cluster)
+	}
+	job := NewJob(kubernetes, param.Namespace, param.FilterCondition)
+	return job.getExtendJobs()
+}
+
+func NewJob(client mgrclient.Client, namespace string, condition *filter.Condition) Job {
+	ctx := context.Background()
+	return Job{
+		ctx:             ctx,
+		client:          client,
+		namespace:       namespace,
+		filterCondition: condition,
+	}
+}
+
+// getExtendJobs get extend deployments
+func (j *Job) getExtendJobs() (*unstructured.Unstructured, *errcode.ErrorInfo) {
+	resultMap := make(map[string]interface{})
+
+	// get deployment list from k8s cluster
+	var jobList batchv1.JobList
+	err := j.client.Cache().List(j.ctx, &jobList, client.InNamespace(j.namespace))
+	if err != nil {
+		clog.Error("can not find job in %s from cluster, %v", j.namespace, err)
+		return nil, errcode.BadRequest(err)
+	}
+
+	// filterCondition list by selector/sort/page
+	total, err := filter.GetEmptyFilter().FilterObjectList(&jobList, j.filterCondition)
+	if err != nil {
+		clog.Error("filterCondition jobList error, err: %s", err.Error())
+		return nil, errcode.BadRequest(err)
+	}
+
+	// add pod status info
+	resultList := j.addExtendInfo(jobList)
+
+	resultMap["total"] = total
+	resultMap["items"] = resultList
+
+	return &unstructured.Unstructured{
+		Object: resultMap,
+	}, nil
+}
+
+func (j *Job) addExtendInfo(jobList batchv1.JobList) []unstructured.Unstructured {
+	resultList := make([]unstructured.Unstructured, 0)
+
+	for _, job := range jobList.Items {
+		// parse job status
+		status := ParseJobStatus(job)
+
+		extendInfo := make(map[string]interface{})
+		extendInfo["status"] = status
+
+		// create result map
+		result := make(map[string]interface{})
+		result["metadata"] = job.ObjectMeta
+		result["spec"] = job.Spec
+		result["status"] = job.Status
+		result["extendInfo"] = extendInfo
+		resultList = append(resultList, unstructured.Unstructured{Object: result})
+	}
+
+	return resultList
+}
+
+func ParseJobStatus(job batchv1.Job) (status string) {
+	status = "Running"
+	jobStatus := job.Status
+	if job.Status.Conditions == nil || len(job.Status.Conditions) == 0 {
+		if jobStatus.Active == 0 || jobStatus.Succeeded == 0 || jobStatus.Failed == 0 {
+			status = "Pending"
+			return
+		}
+	}
+	for _, condition := range jobStatus.Conditions {
+		if string(condition.Type) == "Complete" && string(condition.Status) == "True" {
+			status = "Complete"
+			return
+		} else if string(condition.Type) == "Failed" && string(condition.Status) == "True" {
+			status = "Failed"
+			return
+		}
+	}
+	return
+}

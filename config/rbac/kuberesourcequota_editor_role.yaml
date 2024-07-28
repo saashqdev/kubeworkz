@@ -1,0 +1,24 @@
+# permissions for end users to edit kuberesourcequota.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kuberesourcequota-editor-role
+rules:
+  - apiGroups:
+      - quota.kubeworkz.io
+    resources:
+      - kuberesourcequota
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - quota.kubeworkz.io
+    resources:
+      - kuberesourcequota/status
+    verbs:
+      - get

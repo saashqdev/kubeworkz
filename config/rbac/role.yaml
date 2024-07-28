@@ -1,0 +1,164 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - cluster.kubeworkz.io
+  resources:
+  - clusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cluster.kubeworkz.io
+  resources:
+  - clusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cluster.kubeworkz.io
+  resources:
+  - clusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - hotplug.kubeworkz.io
+  resources:
+  - hotplugs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - hotplug.kubeworkz.io
+  resources:
+  - hotplugs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - hotplug.kubeworkz.io
+  resources:
+  - hotplugs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - quota.kubeworkz.io
+  resources:
+  - kuberesourcequota
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - quota.kubeworkz.io
+  resources:
+  - kuberesourcequota/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - quota.kubeworkz.io
+  resources:
+  - kuberesourcequota/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - projects
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - projects/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - projects/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - tenants
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - tenants/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - tenant.kubeworkz.io
+  resources:
+  - tenants/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - user.kubeworkz.io
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - user.kubeworkz.io
+  resources:
+  - users/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - user.kubeworkz.io
+  resources:
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update

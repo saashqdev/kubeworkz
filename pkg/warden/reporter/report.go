@@ -1,0 +1,150 @@
+/*
+Copyright 2024 KubeWorkz Authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package reporter
+
+import (
+	"bytes"
+	"context"
+	"net/http"
+	"strings"
+	"time"
+
+	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/json"
+	"k8s.io/apimachinery/pkg/util/wait"
+
+	clusterv1 "github.com/saashqdev/kubeworkz/pkg/apis/cluster/v1"
+	"github.com/saashqdev/kubeworkz/pkg/clog"
+	"github.com/saashqdev/kubeworkz/pkg/multicluster/scout"
+	"github.com/saashqdev/kubeworkz/pkg/utils/kubeconfig"
+)
+
+// reporting do real report loop
+func (r *Reporter) reporting(stop <-chan struct{}) {
+	ticker := time.NewTicker(time.Duration(r.PeriodSecond) * time.Second)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			healthy := r.report()
+			if healthy {
+				r.healPivotCluster()
+			} else {
+				r.illPivotCluster()
+			}
+		case <-stop:
+			return
+		}
+	}
+}
+
+// registerIfNeed register current cluster to pivot cluster if need
+func (r *Reporter) registerIfNeed(ctx context.Context) error {
+	// todo: remove it when we dont need KubernetesAPIEndpoint anymore
+	cfg, err := kubeconfig.LoadKubeConfigFromBytes(r.rawLocalKubeConfig)
+	if err != nil {
+		return err
+	}
+
+	clog.Info("pivot kubeworkz address is %v", r.PivotCubeHost)
+
+	return wait.PollUntilContextTimeout(ctx, 3*time.Second, 15*time.Second, false, func(ctx context.Context) (done bool, err error) {
+		cluster := &clusterv1.Cluster{
+			ObjectMeta: metav1.ObjectMeta{Name: r.Cluster},
+			Spec: clusterv1.ClusterSpec{
+				KubeConfig:            r.rawLocalKubeConfig,
+				IsMemberCluster:       r.IsMemberCluster,
+				IsWritable:            r.IsWritable,
+				KubernetesAPIEndpoint: cfg.Host,
+			},
+		}
+		err = r.PivotClient.Direct().Create(ctx, cluster)
+		if err != nil {
+			if errors.IsAlreadyExists(err) {
+				log.Debug("cluster cr %v is already exist", cluster.Name)
+				return true, nil
+			}
+			log.Warn("create cluster %v failed: %v", err)
+			return false, nil
+		}
+		return true, nil
+	})
+}
+
+func (r *Reporter) report() bool {
+	w := scout.WardenInfo{Cluster: r.Cluster, ReportTime: time.Now()}
+
+	resp, err := r.do(w)
+	if err != nil {
+		log.Debug("warden report failed: %v", err)
+		return false
+	}
+
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		log.Debug("kubeworkz is unhealthy with resp code: %v", resp.StatusCode)
+		return false
+	}
+
+	return true
+}
+
+func (r *Reporter) do(info scout.WardenInfo) (*http.Response, error) {
+	data, err := json.Marshal(info)
+	if err != nil {
+		return nil, err
+	}
+
+	reader := bytes.NewReader(data)
+
+	url := r.PivotCubeHost
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		// default, use https as scheme
+		url = "https://" + url
+	}
+	if !strings.HasSuffix(url, "/") {
+		url = url + "/"
+	}
+
+	url = url + "api/v1/kube/scout/heartbeat"
+
+	resp, err := r.Client.Post(url, "application/json", reader)
+	if err != nil {
+		return nil, err
+	}
+
+	_ = resp.Body.Close()
+
+	return resp, nil
+}
+
+// illPivotCluster logs when pivot cluster ill
+func (r *Reporter) illPivotCluster() {
+	if r.pivotHealthy {
+		log.Info("disconnect with pivot cluster")
+	}
+	r.pivotHealthy = false
+}
+
+// healPivotCluster logs when reconnected
+func (r *Reporter) healPivotCluster() {
+	if !r.pivotHealthy {
+		log.Info("connected with pivot cluster")
+	}
+	r.pivotHealthy = true
+}

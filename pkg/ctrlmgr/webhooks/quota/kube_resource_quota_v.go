@@ -1,0 +1,111 @@
+/*
+Copyright 2024 KubeWorkz Authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package quota
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"net/http"
+
+	v1 "k8s.io/api/admission/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+
+	quotav1 "github.com/saashqdev/kubeworkz/pkg/apis/quota/v1"
+	"github.com/saashqdev/kubeworkz/pkg/clog"
+	"github.com/saashqdev/kubeworkz/pkg/quota/kube"
+)
+
+// CubeResourceQuotaValidator guarantee kube resource quota not exceed
+// the limit of parent kube resource quota
+type CubeResourceQuotaValidator struct {
+	Client  client.Client
+	decoder *admission.Decoder
+}
+
+func NewCubeResourceQuotaValidator(client client.Client, decoder *admission.Decoder) *CubeResourceQuotaValidator {
+	return &CubeResourceQuotaValidator{
+		Client:  client,
+		decoder: decoder,
+	}
+}
+
+func (r *CubeResourceQuotaValidator) Handle(ctx context.Context, req admission.Request) admission.Response {
+	oldQuota := &quotav1.CubeResourceQuota{}
+	currentQuota := &quotav1.CubeResourceQuota{}
+
+	defer func() {
+		clog.Debug("operation: %v, current quota: %+v, old quota: %+v", req.Operation, currentQuota, oldQuota)
+	}()
+
+	switch req.Operation {
+	case v1.Create:
+		err := r.decoder.Decode(req, currentQuota)
+		if err != nil {
+			return admission.Errored(http.StatusBadRequest, err)
+		}
+		oldQuota = nil
+	case v1.Update:
+		err := r.decoder.Decode(req, currentQuota)
+		if err != nil {
+			return admission.Errored(http.StatusBadRequest, err)
+		}
+
+		err = r.decoder.DecodeRaw(req.OldObject, oldQuota)
+		if err != nil {
+			return admission.Errored(http.StatusBadRequest, err)
+		}
+
+		if !kube.AllowedUpdate(currentQuota, oldQuota) {
+			reason := fmt.Sprintf("hard of kube resource quota %v should not less than used", currentQuota.Name)
+			clog.Warn(reason)
+			return admission.Denied(reason)
+		}
+	case v1.Delete:
+		err := r.decoder.DecodeRaw(req.OldObject, oldQuota)
+		if err != nil {
+			return admission.Errored(http.StatusBadRequest, err)
+		}
+
+		if !kube.AllowedDel(oldQuota) {
+			reason := fmt.Sprintf("must delete sub resource of kube resource quota %v first", oldQuota.Name)
+			clog.Warn(reason)
+			return admission.Errored(http.StatusNotAcceptable, errors.New(reason))
+		}
+
+		currentQuota = nil
+	}
+
+	q := kube.NewQuotaOperator(r.Client, currentQuota, oldQuota, context.Background())
+
+	if req.Operation != v1.Delete {
+		isOverLoad, reason, err := q.Overload()
+		if err != nil {
+			return admission.Errored(http.StatusInternalServerError, err)
+		}
+
+		if isOverLoad {
+			clog.Warn(reason)
+			return admission.Errored(http.StatusNotAcceptable, errors.New(reason))
+		}
+	}
+
+	//go callback(q, req.Operation == v1.Delete)
+
+	return admission.Allowed("")
+}

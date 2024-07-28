@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: warden-nodeport
+  namespace: kubeworkz-system
+spec:
+  type: NodePort
+  selector:
+    kubeworkz.io/app: warden
+  ports:
+    - name: https
+      port: 7443
+      targetPort: 7443
+      nodePort: 31443
+    - name: webhook
+      port: 8443
+      targetPort: 8443
+      nodePort: 31433

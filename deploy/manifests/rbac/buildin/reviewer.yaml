@@ -1,0 +1,17 @@
+# ordinary only has read authority under of
+# bottom layer namespace used of RoleBinding.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: reviewer
+  labels:
+    kubeworkz.io/rbac: "true"
+    kubeworkz.io/role: "reviewer"
+  annotations:
+    kubeworkz.io/sync: "true"
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-to-reviewer: "true"
+rules: []
+---

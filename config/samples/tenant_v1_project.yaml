@@ -1,0 +1,10 @@
+apiVersion: tenant.kubeworkz.io/v1
+kind: Project
+metadata:
+  name: project-sample
+  labels:
+    kubeworkz.io/tenant: tenant-smaple
+spec:
+  # Add fields here
+  displayName: my-project
+  description: my-project
