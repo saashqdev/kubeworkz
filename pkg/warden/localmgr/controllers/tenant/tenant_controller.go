@@ -195,7 +195,7 @@ func (r *TenantReconciler) crateTenantNamespace(ctx context.Context, tenant stri
 			Name:        fmt.Sprintf("kubeworkz-tenant-%v", tenant),
 			Annotations: map[string]string{"hnc.x-k8s.io/ns": "true"},
 			Labels: map[string]string{
-				constants.HncIncludedNsLabel:                                      "true",
+				constants.HncIncludedNsLabel:                                       "true",
 				fmt.Sprintf("kubeworkz-tenant-%v.tree.hnc.x-k8s.io/depth", tenant): "0",
 			},
 		},

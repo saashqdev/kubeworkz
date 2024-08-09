@@ -204,11 +204,11 @@ func (r *ProjectReconciler) crateProjectNamespace(ctx context.Context, tenant, p
 			Name:        fmt.Sprintf("kubeworkz-project-%v", project),
 			Annotations: map[string]string{constants.HncAnnotation: fmt.Sprintf("kubeworkz-tenant-%v", tenant)},
 			Labels: map[string]string{
-				constants.HncIncludedNsLabel:                                        "true",
+				constants.HncIncludedNsLabel:                                         "true",
 				fmt.Sprintf("kubeworkz-project-%v.tree.hnc.x-k8s.io/depth", project): "0",
 				fmt.Sprintf("kubeworkz-tenant-%v.tree.hnc.x-k8s.io/depth", tenant):   "1",
-				constants.HncProjectLabel:                                           project,
-				constants.HncTenantLabel:                                            tenant,
+				constants.HncProjectLabel:                                            project,
+				constants.HncTenantLabel:                                             tenant,
 			},
 		},
 	}
