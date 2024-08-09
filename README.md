@@ -3,7 +3,6 @@
 [![License](http://img.shields.io/badge/license-apache%20v2-blue.svg)](https://github.com/saashqdev/kubeworkz/blob/main/LICENSE)  [![build](https://img.shields.io/github/workflow/status/kubeworkz-io/kubeworkz/Go)](https://github.com/saashqdev/kubeworkz/actions/workflows/build.yml)  [![Certified Kubernetes](https://img.shields.io/badge/Certified%20Kubernetes-yes-brightgreen)](https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&selected=kube-kube)
 
 
-
 ![logo](./docs/logo.png)
 
 KubeWorkz is an open source enterprise-level container platform that provides enterprises with visualized management of Kubernetes resources and unified multi-cluster-multi-tenant management functions. KubeWorkz can simplify application deployment, manage application life cycles and provide rich monitoring and log auditing functions, helping companies quickly build a powerful and feature-rich container cloud platform.
@@ -86,9 +85,9 @@ The architecture of KubeWorkz described in the figure below includes interaction
 
 ## Feedback & Contact
 
-Contact us by wechat
+Contact us on Discord
 
-<img src="./docs/kubeworkz-wechat.png" alt="kubeworkz-wechat" width="20%" height="20%" />
+<p><a href="https://discord.gg/3AEXNCcdn9">Discord</p>
 
 ## License
 
