@@ -53,7 +53,7 @@ KubeWorkz is an open source enterprise-level container platform that provides en
 
   Multi-tenant management provides three levels of resource isolation, quota management, and RBAC for tenants, projects, and spaces, fully adapting to the resource and RBAC requirements of enterprise-level private cloud construction.
 
-- **Cluster horizontal expansion**
+- **Cluster horizontal scaling**
 
   A unified container cloud management platform can manage multiple business Kubernetes clusters, and there is no upper limit on the number. It can not only solve the limitation of the size of a single Kubernetes cluster by adding a new Kubernetes cluster through horizontal expansion, but also meet the requirements of different business lines to monopolize the cluster.
 
