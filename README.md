@@ -1,6 +1,6 @@
 # KubeWorkz
 
-[![License](http://img.shields.io/badge/license-apache%20v2-blue.svg)](https://github.com/saashqdev/kubeworkz/blob/main/LICENSE)  [![build](https://img.shields.io/github/workflow/status/kubeworkz-io/kubeworkz/Go)](https://github.com/saashqdev/kubeworkz/actions/workflows/build.yml)  [![Certified Kubernetes](https://img.shields.io/badge/Certified%20Kubernetes-yes-brightgreen)](https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&selected=kube-kube)
+[![License](http://img.shields.io/badge/license-apache%20v2-blue.svg)](https://github.com/saashqdev/kubeworkz/blob/main/LICENSE)  [![Certified Kubernetes](https://img.shields.io/badge/Certified%20Kubernetes-yes-brightgreen)](https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&selected=kube-kube)
 
 
 ![logo](./docs/logo.png)
