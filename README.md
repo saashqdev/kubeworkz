@@ -7,8 +7,6 @@
 
 KubeWorkz is an open source enterprise-level container platform that provides enterprises with visualized management of Kubernetes resources and unified multi-cluster-multi-tenant management functions. KubeWorkz can simplify application deployment, manage application life cycles and provide rich monitoring and log auditing functions, helping companies quickly build a powerful and feature-rich container cloud platform.
 
-![dashboard](./docs/dashboard.png)
-
 ## Features
 
 - **Out of the box**
@@ -68,8 +66,6 @@ KubeWorkz is an open source enterprise-level container platform that provides en
 The KubeWorkz is composed of components such as KubeWorkz Service, Warden, CloudShell, and AuditLog Server. Except for Warden, which is deployed in each Kubernetes cluster as an authentication agent, the rest of the components are deployed in the management cluster.
 
 The architecture of KubeWorkz described in the figure below includes interaction with users, interaction with Kubernetes API Server, Prometheus monitoring and self-developed log collection components.
-
-![architecture](./docs/architecture.png)
 
 ## Quick Start
 
