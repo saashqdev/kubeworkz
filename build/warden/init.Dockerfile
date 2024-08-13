@@ -18,7 +18,7 @@ COPY hack/install_hotplug.sh install_hotplug.sh
 
 ENV DOWNLOAD_CHARTS true
 
-RUN wget https://kubeworkz.s3.awsamazon.com/helm-chart/third/third-charts.tar.gz -O third-charts.tar.gz
+RUN wget https://kubeworkz.s3.amazonaws.com/helm-chart/third/third-charts.tar.gz -O third-charts.tar.gz
 
 RUN chmod +x install_hotplug.sh
 

@@ -2,7 +2,7 @@
 # Use of this source code is governed by a Apache license
 # that can be found in the LICENSE file.
 
-IMG ?= kubeworkz/kube:v0.0.1
+IMG ?= kubeworkz/warden-init:v1.8.2
 MULTI_ARCH ?= true
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
