@@ -133,9 +133,9 @@ spec:
             - --secure-port=4443
             # - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
             - --kubelet-use-node-status-port
-            - --kubelet-insecure-tls  #增加
-            - --kubelet-preferred-address-types=InternalDNS,InternalIP,ExternalDNS,ExternalIP,Hostname #增加
-          image: rancher/metrics-server:v0.4.1 #hub.c.163.com/kubeworkz/metrics-server/metrics-server:v0.4.2
+            - --kubelet-insecure-tls  # addition
+            - --kubelet-preferred-address-types=InternalDNS,InternalIP,ExternalDNS,ExternalIP,Hostname # addition
+          image: kubeworkz/rancher-metrics-server:v0.4.1-m
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3

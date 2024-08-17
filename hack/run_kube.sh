@@ -19,9 +19,9 @@ cd "${REPO_ROOT}"
 
 mkdir -p logs
 
-export WARDEN_IMAGE=hub.c.163.com/kubeworkz/warden:v1.1.0
-export DEPENDENCE_JOB_IMAGE=hub.c.163.com/kubeworkz/warden-dependence:v1.1.0
-export WARDEN_INIT_IMAGE=hub.c.163.com/kubeworkz/warden-init:v1.1.0
+export WARDEN_IMAGE=kubeworkz/warden:v1.8.2
+export DEPENDENCE_JOB_IMAGE=kubeworkz/warden-dependence:v1.2.0
+export WARDEN_INIT_IMAGE=kubeworkz/warden-init:v1.8.2
 export JWT_SECRET=56F0D8DB90241C6E
 export PIVOT_KUBE_HOST=kubeworkz:7443
 

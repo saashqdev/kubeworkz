@@ -594,7 +594,7 @@ spec:
             - --cert-restart-on-secret-refresh
           command:
             - /manager
-          image: hub.c.163.com/kubeworkz/hnc/hnc-manager:v1.0.0
+          image: kubeworkz/hnc-manager:v1.0.0
           livenessProbe:
             failureThreshold: 1
             httpGet:
