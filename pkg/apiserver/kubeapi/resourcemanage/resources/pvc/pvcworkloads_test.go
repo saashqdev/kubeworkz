@@ -72,7 +72,7 @@ var _ = Describe("Pvc", func() {
 			Lists:                []client.ObjectList{&podList},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 	})
 
 	It("test get pvc workloads (pod which used this pvc)", func() {

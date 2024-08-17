@@ -67,7 +67,7 @@ func NewCtrlMgrWithOpts(options *Config) *ControllerManager {
 		MetricsBindAddress:      "0",
 		HealthProbeBindAddress:  "0",
 		LeaderElectionID:        "kube-kube-manager",
-		LeaderElectionNamespace: env.CubeNamespace(),
+		LeaderElectionNamespace: env.KubeNamespace(),
 	})
 
 	if err != nil {
@@ -104,7 +104,7 @@ func (m *ControllerManager) Run(stop <-chan struct{}) {
 	go func() {
 		err := m.CtrlMgr.Start(exit.SetupCtxWithStop(context.Background(), stop))
 		if err != nil {
-			clog.Fatal("problem run controller manager: %v", err)
+			clog.Fatal("problem running controller manager: %v", err)
 		}
 	}()
 

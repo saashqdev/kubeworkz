@@ -138,7 +138,7 @@ var _ = Describe("User", func() {
 		}
 
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 	})
 
 	It("create user", func() {

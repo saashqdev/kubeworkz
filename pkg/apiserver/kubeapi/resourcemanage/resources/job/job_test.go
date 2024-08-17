@@ -69,7 +69,7 @@ var _ = Describe("Job", func() {
 			Lists:                []client.ObjectList{&jobList},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 	})
 
 	It("test get job extend info", func() {

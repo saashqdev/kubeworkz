@@ -154,7 +154,7 @@ var _ = Describe("Fake multi cluster manager", func() {
 				Lists:                []client.ObjectList{&appsv1.DeploymentList{Items: []appsv1.Deployment{*dep, *dep2}}},
 			}
 			multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-			clients.InitCubeClientSetWithOpts(nil)
+			clients.InitKubeClientSetWithOpts(nil)
 			close(done)
 		})
 		AssertClientBehavior()

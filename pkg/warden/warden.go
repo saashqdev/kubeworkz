@@ -61,7 +61,7 @@ func NewWardenWithOpts(opts *Config) *Warden {
 		Cluster:                opts.Cluster,
 		IsWritable:             opts.IsWritable,
 		IsMemberCluster:        opts.InMemberCluster,
-		PivotCubeHost:          opts.PivotCubeHost,
+		PivotKubeHost:          opts.PivotKubeHost,
 		PeriodSecond:           opts.PeriodSecond,
 		WaitSecond:             opts.WaitSecond,
 		LocalClusterKubeConfig: opts.LocalClusterKubeConfig,
@@ -88,7 +88,7 @@ func NewWardenWithOpts(opts *Config) *Warden {
 	if opts.InMemberCluster {
 		w.SyncCtrl = &syncmgr.SyncManager{
 			PivotClusterKubeConfig: opts.PivotClusterKubeConfig,
-			PivotCubeHost:          opts.PivotCubeHost,
+			PivotKubeHost:          opts.PivotKubeHost,
 		}
 	}
 
@@ -137,7 +137,7 @@ func (w *Warden) Run(stop <-chan struct{}) {
 
 // makePivotClient make client for pivot client
 func makePivotClient(opts *Config) (multiclient.Client, error) {
-	cfg, err := utils.GetPivotConfig(opts.PivotClusterKubeConfig, opts.PivotCubeHost)
+	cfg, err := utils.GetPivotConfig(opts.PivotClusterKubeConfig, opts.PivotKubeHost)
 	if err != nil {
 		return nil, err
 	}

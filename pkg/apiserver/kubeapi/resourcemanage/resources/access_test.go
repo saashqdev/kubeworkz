@@ -38,7 +38,7 @@ func TestAccessAllow(t *testing.T) {
 		Lists:                []client.ObjectList{},
 	}
 	multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-	clients.InitCubeClientSetWithOpts(nil)
+	clients.InitKubeClientSetWithOpts(nil)
 
 	assert := assert.New(t)
 	access := NewSimpleAccess(constants.LocalCluster, "admin", "namespace-test")

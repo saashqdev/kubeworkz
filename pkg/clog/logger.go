@@ -20,20 +20,20 @@ import (
 	"go.uber.org/zap"
 )
 
-type CubeLogger interface {
+type KubeLogger interface {
 	// AddCallerSkip new kube logger with callstack skipping.
-	AddCallerSkip(callerSkip int) CubeLogger
+	AddCallerSkip(callerSkip int) KubeLogger
 
 	// WithName adds some key-value pairs of context to a logger.
 	// See Info for documentation on how key/value pairs work.
-	WithName(name string) CubeLogger
+	WithName(name string) KubeLogger
 
 	// WithValues adds a new element to the logger's name.
 	// Successive calls with WithName continue to append
 	// suffixes to the logger's name.  It's strongly recommended
 	// that name segments contain only letters, digits, and hyphens
 	// (see the package documentation for more information).
-	WithValues(keysAndValues ...interface{}) CubeLogger
+	WithValues(keysAndValues ...interface{}) KubeLogger
 
 	Debug(format string, a ...interface{})
 
@@ -50,7 +50,7 @@ type kubeLogger struct {
 	l *zap.Logger
 }
 
-var logger CubeLogger
+var logger KubeLogger
 
 func Debug(format string, a ...interface{}) {
 	ensureLogger().Debug(format, a...)
@@ -72,18 +72,18 @@ func Fatal(format string, a ...interface{}) {
 	ensureLogger().Fatal(format, a...)
 }
 
-func WithName(name string) CubeLogger {
+func WithName(name string) KubeLogger {
 	return ensureLogger().WithName(name).AddCallerSkip(-1)
 }
 
-func WithValues(keysAndValues ...interface{}) CubeLogger {
+func WithValues(keysAndValues ...interface{}) KubeLogger {
 	return ensureLogger().WithValues(keysAndValues).AddCallerSkip(-1)
 }
 
 // ensureLogger new default kube logger if logger is nil
-func ensureLogger() CubeLogger {
+func ensureLogger() KubeLogger {
 	if logger == nil {
-		logger = newDefaultCubeLogger()
+		logger = newDefaultKubeLogger()
 	}
 	return logger
 }

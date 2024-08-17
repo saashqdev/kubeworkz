@@ -28,15 +28,15 @@ import (
 
 var atomicLevel = zap.NewAtomicLevel()
 
-// InitCubeLoggerWithOpts init kube logger with options
-func InitCubeLoggerWithOpts(opts *Config) {
+// InitKubeLoggerWithOpts init kube logger with options
+func InitKubeLoggerWithOpts(opts *Config) {
 	zapLogger := zap.New(newZapCore(opts), zap.AddCaller(), zap.AddCallerSkip(2),
 		zap.Development(), zap.AddStacktrace(levelAdapt(opts.StacktraceLevel)))
 
 	logger = &kubeLogger{l: zapLogger}
 }
 
-func newDefaultCubeLogger() CubeLogger {
+func newDefaultKubeLogger() KubeLogger {
 	return New(&Config{
 		LogFile:         "",
 		MaxAge:          0,
@@ -50,7 +50,7 @@ func newDefaultCubeLogger() CubeLogger {
 }
 
 // New create kube logger with options
-func New(opts *Config) CubeLogger {
+func New(opts *Config) KubeLogger {
 	zapLogger := zap.New(newZapCore(opts), zap.AddCaller(), zap.AddCallerSkip(2),
 		zap.Development(), zap.AddStacktrace(levelAdapt(opts.StacktraceLevel)))
 
@@ -103,18 +103,18 @@ func GetAtomicLevel() zap.AtomicLevel {
 	return atomicLevel
 }
 
-func (c *kubeLogger) AddCallerSkip(callerSkip int) CubeLogger {
-	return newCubeLoggerWithExtraSkip(c.l, callerSkip)
+func (c *kubeLogger) AddCallerSkip(callerSkip int) KubeLogger {
+	return newKubeLoggerWithExtraSkip(c.l, callerSkip)
 }
 
-func (c *kubeLogger) WithName(name string) CubeLogger {
+func (c *kubeLogger) WithName(name string) KubeLogger {
 	l := c.l.Named(name)
-	return newCubeLoggerWithExtraSkip(l, 0)
+	return newKubeLoggerWithExtraSkip(l, 0)
 }
 
-func (c *kubeLogger) WithValues(keysAndValues ...interface{}) CubeLogger {
+func (c *kubeLogger) WithValues(keysAndValues ...interface{}) KubeLogger {
 	l := c.l.With(handleFields(c.l, keysAndValues)...)
-	return newCubeLoggerWithExtraSkip(l, 0)
+	return newKubeLoggerWithExtraSkip(l, 0)
 }
 
 func (c *kubeLogger) Debug(format string, a ...interface{}) {
@@ -183,8 +183,8 @@ func handleFields(l *zap.Logger, args []interface{}, additional ...zap.Field) []
 	return append(fields, additional...)
 }
 
-// newCubeLoggerWithExtraSkip allows creation of loggers with variable levels of callstack skipping
-func newCubeLoggerWithExtraSkip(l *zap.Logger, callerSkip int) CubeLogger {
+// newKubeLoggerWithExtraSkip allows creation of loggers with variable levels of callstack skipping
+func newKubeLoggerWithExtraSkip(l *zap.Logger, callerSkip int) KubeLogger {
 	_l := l.WithOptions(zap.AddCallerSkip(callerSkip))
 	return &kubeLogger{l: _l}
 }

@@ -99,7 +99,7 @@ var _ = Describe("Key", func() {
 			Lists:                []client.ObjectList{&userv1.UserList{Items: []userv1.User{testUser}}, &userv1.KeyList{Items: []userv1.Key{userKey}}},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 
 	})
 	It("test create", func() {

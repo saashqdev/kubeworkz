@@ -47,7 +47,7 @@ func DependenceJobImage() string {
 	return os.Getenv("DEPENDENCE_JOB_IMAGE")
 }
 
-func PivotCubeHost() string {
+func PivotKubeHost() string {
 	return os.Getenv("PIVOT_CUBE_HOST")
 }
 
@@ -59,10 +59,10 @@ func WardenRegisterModeEnable() string {
 	return v
 }
 
-func PivotCubeClusterIPSvc() string {
+func PivotKubeClusterIPSvc() string {
 	r := os.Getenv("PIVOT_CUBE_CLUSTER_IP_SVC")
 	if r == "" {
-		r = constants.DefaultPivotCubeClusterIPSvc
+		r = constants.DefaultPivotKubeClusterIPSvc
 	}
 	return r
 }
@@ -140,7 +140,7 @@ var (
 	kubeNamespace = "kubeworkz-system"
 )
 
-func CubeNamespace() string {
+func KubeNamespace() string {
 	once.Do(func() {
 		ns, ok := os.LookupEnv("CUBE_NAMESPACE")
 		if ok {

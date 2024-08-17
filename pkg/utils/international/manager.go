@@ -48,7 +48,7 @@ func InitGi18nManagers() (*Gi18nManagers, error) {
 		return nil, errors.New("get pivot cluster client is nil")
 	}
 	cm := &v1.ConfigMap{}
-	err := kClient.Get(context.Background(), client.ObjectKey{Name: "kubeworkz-language-config", Namespace: env.CubeNamespace()}, cm)
+	err := kClient.Get(context.Background(), client.ObjectKey{Name: "kubeworkz-language-config", Namespace: env.KubeNamespace()}, cm)
 	if err != nil {
 		clog.Error("get configmap kubeworkz-language-config from K8s err: %v", err)
 		return nil, err

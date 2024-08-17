@@ -131,7 +131,7 @@ func isManagedResourceQuota(obj client.Object) bool {
 	if labels == nil {
 		return false
 	}
-	if _, ok := labels[constants.CubeQuotaLabel]; ok {
+	if _, ok := labels[constants.KubeQuotaLabel]; ok {
 		return true
 	}
 	return false

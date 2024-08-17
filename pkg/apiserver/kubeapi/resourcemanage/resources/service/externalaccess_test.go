@@ -106,7 +106,7 @@ var _ = Describe("Externalaccess", func() {
 			Lists:                []client.ObjectList{&podList},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 		cli = clients.Interface().Kubernetes(constants.LocalCluster)
 		Expect(cli).NotTo(BeNil())
 		externalAccess = NewExternalAccess(cli.Direct(), ns, serviceName, &filter.Condition{Limit: 10, Offset: 1}, nginxNs, tcpCmName, udpCmName)

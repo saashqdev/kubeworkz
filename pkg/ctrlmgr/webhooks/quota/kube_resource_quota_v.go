@@ -31,23 +31,23 @@ import (
 	"github.com/saashqdev/kubeworkz/pkg/quota/kube"
 )
 
-// CubeResourceQuotaValidator guarantee kube resource quota not exceed
+// KubeResourceQuotaValidator guarantee kube resource quota not exceed
 // the limit of parent kube resource quota
-type CubeResourceQuotaValidator struct {
+type KubeResourceQuotaValidator struct {
 	Client  client.Client
 	decoder *admission.Decoder
 }
 
-func NewCubeResourceQuotaValidator(client client.Client, decoder *admission.Decoder) *CubeResourceQuotaValidator {
-	return &CubeResourceQuotaValidator{
+func NewKubeResourceQuotaValidator(client client.Client, decoder *admission.Decoder) *KubeResourceQuotaValidator {
+	return &KubeResourceQuotaValidator{
 		Client:  client,
 		decoder: decoder,
 	}
 }
 
-func (r *CubeResourceQuotaValidator) Handle(ctx context.Context, req admission.Request) admission.Response {
-	oldQuota := &quotav1.CubeResourceQuota{}
-	currentQuota := &quotav1.CubeResourceQuota{}
+func (r *KubeResourceQuotaValidator) Handle(ctx context.Context, req admission.Request) admission.Response {
+	oldQuota := &quotav1.KubeResourceQuota{}
+	currentQuota := &quotav1.KubeResourceQuota{}
 
 	defer func() {
 		clog.Debug("operation: %v, current quota: %+v, old quota: %+v", req.Operation, currentQuota, oldQuota)

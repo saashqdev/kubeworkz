@@ -38,7 +38,7 @@ func SetupWithWebhooks(mgr manager.Manager) {
 	decoder := admission.NewDecoder(mgr.GetScheme())
 	hookServer.Register("/validate-cluster-kubeworkz-io-v1-cluster", admission.ValidatingWebhookFor(mgr.GetScheme(), clusterWebhook.NewClusterValidator(client)))
 	hookServer.Register("/validate-hotplug-kubeworkz-io-v1-hotplug", admission.ValidatingWebhookFor(mgr.GetScheme(), hotplugWebhook.NewHotplugValidator(client)))
-	hookServer.Register("/validate-quota-kubeworkz-io-v1-kube-resource-quota", &webhook.Admission{Handler: quota.NewCubeResourceQuotaValidator(client, decoder)})
+	hookServer.Register("/validate-quota-kubeworkz-io-v1-kube-resource-quota", &webhook.Admission{Handler: quota.NewKubeResourceQuotaValidator(client, decoder)})
 	hookServer.Register("/validate-tenant-kubeworkz-io-v1-tenant", &webhook.Admission{Handler: tenant.NewValidator(decoder)})
 	hookServer.Register("/validate-tenant-kubeworkz-io-v1-project", &webhook.Admission{Handler: project.NewValidator(client, decoder)})
 }

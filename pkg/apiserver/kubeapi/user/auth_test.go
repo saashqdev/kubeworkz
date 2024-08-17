@@ -68,7 +68,7 @@ var _ = Describe("Auth", func() {
 			Lists:                []client.ObjectList{},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 	})
 
 	It("login", func() {

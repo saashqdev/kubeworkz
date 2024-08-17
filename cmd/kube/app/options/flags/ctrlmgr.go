@@ -24,34 +24,34 @@ func init() {
 		&cli.BoolFlag{
 			Name:        "leader-elect",
 			Value:       false,
-			Destination: &CubeOpts.CtrlMgrOpts.LeaderElect,
+			Destination: &KubeOpts.CtrlMgrOpts.LeaderElect,
 		},
 		&cli.StringFlag{
 			Name:        "webhook-cert",
-			Destination: &CubeOpts.CtrlMgrOpts.WebhookCert,
+			Destination: &KubeOpts.CtrlMgrOpts.WebhookCert,
 		},
 		&cli.IntFlag{
 			Name:        "webhook-server-port",
-			Destination: &CubeOpts.CtrlMgrOpts.WebhookServerPort,
+			Destination: &KubeOpts.CtrlMgrOpts.WebhookServerPort,
 		},
 		&cli.BoolFlag{
 			Name:        "allow-privileged",
-			Destination: &CubeOpts.CtrlMgrOpts.AllowPrivileged,
+			Destination: &KubeOpts.CtrlMgrOpts.AllowPrivileged,
 		},
 		&cli.StringFlag{
 			Name:        "enable-controllers",
 			Value:       "*",
-			Destination: &CubeOpts.CtrlMgrOpts.EnableControllers,
+			Destination: &KubeOpts.CtrlMgrOpts.EnableControllers,
 		},
 		&cli.IntFlag{
 			Name:        "scout-wait-timeout-seconds",
-			Destination: &CubeOpts.CtrlMgrOpts.ScoutWaitTimeoutSeconds,
+			Destination: &KubeOpts.CtrlMgrOpts.ScoutWaitTimeoutSeconds,
 			Value:       20,
 			Usage:       "timeout wait for warden report heartbeat",
 		},
 		&cli.IntFlag{
 			Name:        "scout-initial-delay-seconds",
-			Destination: &CubeOpts.CtrlMgrOpts.ScoutInitialDelaySeconds,
+			Destination: &KubeOpts.CtrlMgrOpts.ScoutInitialDelaySeconds,
 			Value:       10,
 			Usage:       "the time that wait for warden start",
 		},

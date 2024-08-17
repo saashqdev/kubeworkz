@@ -132,7 +132,7 @@ func (r *TenantReconciler) deleteTenant(tenantName string) (ctrl.Result, error) 
 		return ctrl.Result{}, err
 	}
 	// delete kubeResourceQuota of tenant
-	err := r.deleteCubeResourceQuotaOfTenant(tenantName)
+	err := r.deleteKubeResourceQuotaOfTenant(tenantName)
 	return ctrl.Result{}, err
 }
 
@@ -168,8 +168,8 @@ func (r *TenantReconciler) deleteNSofTenant(tenantName string) error {
 	return nil
 }
 
-func (r *TenantReconciler) deleteCubeResourceQuotaOfTenant(tenantName string) error {
-	quota := v1.CubeResourceQuota{}
+func (r *TenantReconciler) deleteKubeResourceQuotaOfTenant(tenantName string) error {
+	quota := v1.KubeResourceQuota{}
 	err := r.Client.DeleteAllOf(context.TODO(), &quota, client.MatchingLabels{constants.TenantLabel: tenantName})
 	if err != nil && !errors.IsNotFound(err) {
 		clog.Error("delete kube resource quota error， tenant name: %s, error: %s", tenantName, err.Error())

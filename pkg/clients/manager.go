@@ -34,8 +34,8 @@ type kubeClientSet struct {
 	k8s multicluster.Manager
 }
 
-// InitCubeClientSetWithOpts initialize global clients with given config.
-func InitCubeClientSetWithOpts(opts *Config) {
+// InitKubeClientSetWithOpts initialize global clients with given config.
+func InitKubeClientSetWithOpts(opts *Config) {
 	genericClientSet.k8s = multicluster.Interface()
 }
 

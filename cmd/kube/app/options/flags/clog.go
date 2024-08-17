@@ -25,44 +25,44 @@ func init() {
 		&cli.StringFlag{
 			Name:        "log-file",
 			Value:       "/etc/logs/kube.log",
-			Destination: &CubeOpts.CubeLoggerOpts.LogFile,
+			Destination: &KubeOpts.KubeLoggerOpts.LogFile,
 		},
 		&cli.IntFlag{
 			Name:        "max-size",
 			Value:       1000,
-			Destination: &CubeOpts.CubeLoggerOpts.MaxSize,
+			Destination: &KubeOpts.KubeLoggerOpts.MaxSize,
 		},
 		&cli.IntFlag{
 			Name:        "max-backups",
 			Value:       7,
-			Destination: &CubeOpts.CubeLoggerOpts.MaxBackups,
+			Destination: &KubeOpts.KubeLoggerOpts.MaxBackups,
 		},
 		&cli.IntFlag{
 			Name:        "max-age",
 			Value:       1,
-			Destination: &CubeOpts.CubeLoggerOpts.MaxAge,
+			Destination: &KubeOpts.KubeLoggerOpts.MaxAge,
 		},
 		&cli.BoolFlag{
 			Name:        "compress",
 			Value:       true,
-			Destination: &CubeOpts.CubeLoggerOpts.Compress,
+			Destination: &KubeOpts.KubeLoggerOpts.Compress,
 		},
 
 		// logger flags
 		&cli.StringFlag{
 			Name:        "log-level",
 			Value:       "info",
-			Destination: &CubeOpts.CubeLoggerOpts.LogLevel,
+			Destination: &KubeOpts.KubeLoggerOpts.LogLevel,
 		},
 		&cli.BoolFlag{
 			Name:        "json-encode",
 			Value:       false,
-			Destination: &CubeOpts.CubeLoggerOpts.JsonEncode,
+			Destination: &KubeOpts.KubeLoggerOpts.JsonEncode,
 		},
 		&cli.StringFlag{
 			Name:        "stacktrace-level",
 			Value:       "error",
-			Destination: &CubeOpts.CubeLoggerOpts.StacktraceLevel,
+			Destination: &KubeOpts.KubeLoggerOpts.StacktraceLevel,
 		},
 	}...)
 }

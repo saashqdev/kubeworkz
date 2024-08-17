@@ -26,7 +26,7 @@ type Config struct {
 	KlogLevel              string
 
 	// report
-	PivotCubeHost string
+	PivotKubeHost string
 	PeriodSecond  int
 	WaitSecond    int
 	RetryCounts   int

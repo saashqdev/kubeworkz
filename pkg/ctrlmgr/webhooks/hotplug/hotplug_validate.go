@@ -33,7 +33,7 @@ import (
 )
 
 var (
-	hotplugLog    clog.CubeLogger
+	hotplugLog    clog.KubeLogger
 	hotplugClient client.Client
 )
 

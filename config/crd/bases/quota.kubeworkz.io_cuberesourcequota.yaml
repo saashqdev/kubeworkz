@@ -12,8 +12,8 @@ spec:
   names:
     categories:
     - quota
-    kind: CubeResourceQuota
-    listKind: CubeResourceQuotaList
+    kind: KubeResourceQuota
+    listKind: KubeResourceQuotaList
     plural: kuberesourcequota
     singular: kuberesourcequota
   scope: Cluster
@@ -21,7 +21,7 @@ spec:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: CubeResourceQuota is the Schema for the kuberesourcequota API
+        description: KubeResourceQuota is the Schema for the kuberesourcequota API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -36,7 +36,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: CubeResourceQuotaSpec defines the desired state of CubeResourceQuota
+            description: KubeResourceQuotaSpec defines the desired state of KubeResourceQuota
             properties:
               hard:
                 additionalProperties:
@@ -62,7 +62,7 @@ spec:
                 type: object
             type: object
           status:
-            description: CubeResourceQuotaStatus defines the observed state of CubeResourceQuota
+            description: KubeResourceQuotaStatus defines the observed state of KubeResourceQuota
             properties:
               hard:
                 additionalProperties:

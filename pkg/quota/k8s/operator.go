@@ -51,7 +51,7 @@ func NewQuotaOperator(pivot, local client.Client, current, old *v1.ResourceQuota
 	}
 }
 
-func (o *QuotaOperator) Parent() (*quotav1.CubeResourceQuota, error) {
+func (o *QuotaOperator) Parent() (*quotav1.KubeResourceQuota, error) {
 	var (
 		parentName string
 		ok         bool
@@ -60,10 +60,10 @@ func (o *QuotaOperator) Parent() (*quotav1.CubeResourceQuota, error) {
 	)
 
 	if o.CurrentQuota == nil {
-		parentName, ok = o.OldQuota.Labels[constants.CubeQuotaLabel]
+		parentName, ok = o.OldQuota.Labels[constants.KubeQuotaLabel]
 		quotaName, quotaNs = o.OldQuota.Name, o.OldQuota.Namespace
 	} else {
-		parentName, ok = o.CurrentQuota.Labels[constants.CubeQuotaLabel]
+		parentName, ok = o.CurrentQuota.Labels[constants.KubeQuotaLabel]
 		quotaName, quotaNs = o.CurrentQuota.Name, o.CurrentQuota.Namespace
 	}
 
@@ -77,7 +77,7 @@ func (o *QuotaOperator) Parent() (*quotav1.CubeResourceQuota, error) {
 	}
 
 	key := types.NamespacedName{Name: parentName}
-	parentQuota := &quotav1.CubeResourceQuota{}
+	parentQuota := &quotav1.KubeResourceQuota{}
 
 	err := o.PivotClient.Get(o.Context, key, parentQuota)
 	if err != nil {
@@ -145,7 +145,7 @@ func (o *QuotaOperator) UpdateParentStatus(flush bool) error {
 	}
 
 	return retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		newQuota := &quotav1.CubeResourceQuota{}
+		newQuota := &quotav1.KubeResourceQuota{}
 		err := o.PivotClient.Get(context.Background(), types.NamespacedName{Name: refreshed.Name}, newQuota)
 		if err != nil {
 			return err

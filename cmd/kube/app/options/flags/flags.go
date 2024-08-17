@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	CubeOpts = options.NewCubeOptions()
+	KubeOpts = options.NewKubeOptions()
 
 	Flags = []cli.Flag{
 		// global flags

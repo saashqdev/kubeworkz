@@ -23,7 +23,7 @@ import (
 type Interface interface {
 	// Parent get parent quota of current quota return nil
 	// if its orphan
-	Parent() (*quotav1.CubeResourceQuota, error)
+	Parent() (*quotav1.KubeResourceQuota, error)
 
 	// Overload return true and reason if this quota exceed limit
 	Overload() (bool, string, error)

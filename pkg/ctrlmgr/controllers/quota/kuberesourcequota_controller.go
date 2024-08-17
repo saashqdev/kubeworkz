@@ -39,14 +39,14 @@ import (
 	"github.com/saashqdev/kubeworkz/pkg/quota/kube"
 )
 
-// CubeResourceQuotaReconciler reconciles a CubeResourceQuota object
-type CubeResourceQuotaReconciler struct {
+// KubeResourceQuotaReconciler reconciles a KubeResourceQuota object
+type KubeResourceQuotaReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
 
 func newReconciler(mgr manager.Manager) (reconcile.Reconciler, error) {
-	r := &CubeResourceQuotaReconciler{
+	r := &KubeResourceQuotaReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}
@@ -58,10 +58,10 @@ func newReconciler(mgr manager.Manager) (reconcile.Reconciler, error) {
 //+kubebuilder:rbac:groups=quota.kubeworkz.io,resources=kuberesourcequota/finalizers,verbs=update
 
 // Reconcile of kube resource quota only used for initializing status of kube resource quota
-func (r *CubeResourceQuotaReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	clog.Info("Reconcile CubeResourceQuota %v", req.Name)
+func (r *KubeResourceQuotaReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	clog.Info("Reconcile KubeResourceQuota %v", req.Name)
 
-	kubeQuota := &quotav1.CubeResourceQuota{}
+	kubeQuota := &quotav1.KubeResourceQuota{}
 	err := r.Get(ctx, req.NamespacedName, kubeQuota)
 	if err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
@@ -81,7 +81,7 @@ func (r *CubeResourceQuotaReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	}
 
 	// init status of kube resource kubeQuota when create
-	err = r.initCubeQuotaStatus(ctx, kubeQuota)
+	err = r.initKubeQuotaStatus(ctx, kubeQuota)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -94,36 +94,36 @@ func (r *CubeResourceQuotaReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	return ctrl.Result{}, quotaOperator.UpdateParentStatus(false)
 }
 
-func (r *CubeResourceQuotaReconciler) ensureFinalizer(ctx context.Context, kubeQuota *quotav1.CubeResourceQuota) error {
+func (r *KubeResourceQuotaReconciler) ensureFinalizer(ctx context.Context, kubeQuota *quotav1.KubeResourceQuota) error {
 	if !controllerutil.ContainsFinalizer(kubeQuota, quota.Finalizer) {
 		controllerutil.AddFinalizer(kubeQuota, quota.Finalizer)
 		if err := r.Update(ctx, kubeQuota); err != nil {
-			clog.Warn("add finalizer to CubeResourceQuota %v failed: %v", kubeQuota.Name, err)
+			clog.Warn("add finalizer to KubeResourceQuota %v failed: %v", kubeQuota.Name, err)
 			return err
 		}
 	}
 	return nil
 }
 
-func (r *CubeResourceQuotaReconciler) removeFinalizer(ctx context.Context, kubeQuota *quotav1.CubeResourceQuota, quotaOperator quota.Interface) error {
+func (r *KubeResourceQuotaReconciler) removeFinalizer(ctx context.Context, kubeQuota *quotav1.KubeResourceQuota, quotaOperator quota.Interface) error {
 	if controllerutil.ContainsFinalizer(kubeQuota, quota.Finalizer) {
-		clog.Info("delete CubeResourceQuota %v", kubeQuota.Name)
+		clog.Info("delete KubeResourceQuota %v", kubeQuota.Name)
 		err := quotaOperator.UpdateParentStatus(true)
 		if err != nil {
-			clog.Error("update parent status of CubeResourceQuota %v failed: %v", kubeQuota.Name, err)
+			clog.Error("update parent status of KubeResourceQuota %v failed: %v", kubeQuota.Name, err)
 			return err
 		}
 		controllerutil.RemoveFinalizer(kubeQuota, quota.Finalizer)
 		err = r.Update(ctx, kubeQuota)
 		if err != nil {
-			clog.Warn("delete finalizer to CubeResourceQuota %v failed: %v", kubeQuota.Name, err)
+			clog.Warn("delete finalizer to KubeResourceQuota %v failed: %v", kubeQuota.Name, err)
 			return err
 		}
 	}
 	return nil
 }
 
-func (r *CubeResourceQuotaReconciler) initCubeQuotaStatus(ctx context.Context, kubeQuota *quotav1.CubeResourceQuota) error {
+func (r *KubeResourceQuotaReconciler) initKubeQuotaStatus(ctx context.Context, kubeQuota *quotav1.KubeResourceQuota) error {
 	if kubeQuota.Status.Used != nil && kubeQuota.Status.Hard != nil {
 		return nil
 	}
@@ -131,7 +131,7 @@ func (r *CubeResourceQuotaReconciler) initCubeQuotaStatus(ctx context.Context, k
 	kube.InitStatus(kubeQuota)
 
 	return retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		newQuota := &quotav1.CubeResourceQuota{}
+		newQuota := &quotav1.KubeResourceQuota{}
 		err := r.Get(ctx, types.NamespacedName{Name: kubeQuota.Name}, newQuota)
 		if err != nil {
 			return err
@@ -145,7 +145,7 @@ func (r *CubeResourceQuotaReconciler) initCubeQuotaStatus(ctx context.Context, k
 	})
 }
 
-func (r *CubeResourceQuotaReconciler) ensureSpecAndStatusConsistent(ctx context.Context, kubeQuota *quotav1.CubeResourceQuota) error {
+func (r *KubeResourceQuotaReconciler) ensureSpecAndStatusConsistent(ctx context.Context, kubeQuota *quotav1.KubeResourceQuota) error {
 	needUpdate := false
 
 	// ensure used field
@@ -163,7 +163,7 @@ func (r *CubeResourceQuotaReconciler) ensureSpecAndStatusConsistent(ctx context.
 
 	if needUpdate {
 		err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-			newQuota := &quotav1.CubeResourceQuota{}
+			newQuota := &quotav1.KubeResourceQuota{}
 			err := r.Get(ctx, types.NamespacedName{Name: kubeQuota.Name}, newQuota)
 			if err != nil {
 				return err
@@ -184,7 +184,7 @@ func (r *CubeResourceQuotaReconciler) ensureSpecAndStatusConsistent(ctx context.
 }
 
 // ifUpdateUsed keep resource of hard and used same
-func (r *CubeResourceQuotaReconciler) ifUpdateUsed(hard, used v1.ResourceList) (v1.ResourceList, bool) {
+func (r *KubeResourceQuotaReconciler) ifUpdateUsed(hard, used v1.ResourceList) (v1.ResourceList, bool) {
 	needUpdate := false
 	for rsName := range hard {
 		if _, ok := used[rsName]; !ok {
@@ -208,11 +208,11 @@ func SetupWithManager(mgr ctrl.Manager, _ *options.Options) error {
 			return true
 		},
 		UpdateFunc: func(updateEvent event.UpdateEvent) bool {
-			oldObj, ok := updateEvent.ObjectOld.(*quotav1.CubeResourceQuota)
+			oldObj, ok := updateEvent.ObjectOld.(*quotav1.KubeResourceQuota)
 			if !ok {
 				return false
 			}
-			newObj, ok := updateEvent.ObjectNew.(*quotav1.CubeResourceQuota)
+			newObj, ok := updateEvent.ObjectNew.(*quotav1.KubeResourceQuota)
 			if !ok {
 				return false
 			}
@@ -233,7 +233,7 @@ func SetupWithManager(mgr ctrl.Manager, _ *options.Options) error {
 	}
 
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&quotav1.CubeResourceQuota{}).
+		For(&quotav1.KubeResourceQuota{}).
 		WithEventFilter(predicateFunc).
 		Complete(r)
 }

@@ -41,7 +41,7 @@ func getConfig() authentication.GitHubConfig {
 		return gitHubConfig
 	}
 	cm := &v1.ConfigMap{}
-	err := kClient.Get(context.Background(), client.ObjectKey{Name: configMapName, Namespace: env.CubeNamespace()}, cm)
+	err := kClient.Get(context.Background(), client.ObjectKey{Name: configMapName, Namespace: env.KubeNamespace()}, cm)
 	if err != nil {
 		clog.Error("get configmap from K8s err: %v", err)
 		return gitHubConfig

@@ -105,7 +105,7 @@ func tryConnectCluster(cluster clusterv1.Cluster) (client.Client, error) {
 // isDatingCluster tells if the cluster is dating with KubeWorkz
 func isDatingCluster(ctx context.Context, cli client.Client, cluster string) bool {
 	warden := appsv1.Deployment{}
-	err := cli.Get(ctx, client.ObjectKey{Name: constants.Warden, Namespace: env.CubeNamespace()}, &warden)
+	err := cli.Get(ctx, client.ObjectKey{Name: constants.Warden, Namespace: env.KubeNamespace()}, &warden)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			log.Debug("warden not found in cluster %v", cluster)
@@ -156,14 +156,14 @@ func (r *ClusterReconciler) deleteExternalResources(cluster clusterv1.Cluster, c
 	if !env.RetainMemberClusterResource() {
 		mClient := internalCluster.Client
 		// delete kubeworkz-system of cluster
-		ns := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: env.CubeNamespace()}}
+		ns := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: env.KubeNamespace()}}
 		err := mClient.Direct().Delete(ctx, &ns)
 		if err != nil {
 			if errors.IsNotFound(err) {
-				clog.Warn("namespace %v of cluster %v not found, delete skip", env.CubeNamespace(), cluster.Name)
+				clog.Warn("namespace %v of cluster %v not found, delete skip", env.KubeNamespace(), cluster.Name)
 			}
 			// retry if delete resources in member cluster failed
-			clog.Error("delete namespace %v of cluster %v failed: %v", env.CubeNamespace(), cluster.Name, err)
+			clog.Error("delete namespace %v of cluster %v failed: %v", env.KubeNamespace(), cluster.Name, err)
 			return err
 		}
 	}

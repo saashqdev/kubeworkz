@@ -53,7 +53,7 @@ func Init() {
 	// Read config.yaml
 	readEnvConfig()
 	// Create strong k8s client
-	clients.InitCubeClientSetWithOpts(nil)
+	clients.InitKubeClientSetWithOpts(nil)
 	cluster, err := multicluster.Interface().Get(constants.LocalCluster)
 	if err != nil {
 		clog.Info("failed to get cluster info: %v", err)

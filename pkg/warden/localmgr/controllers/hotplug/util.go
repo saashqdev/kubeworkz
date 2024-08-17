@@ -189,7 +189,7 @@ func convertYaml(yamlStr string) string {
 // update feature configmap
 func updateConfigMap(ctx context.Context, cli client.Client, results []*hotplugv1.DeployResult) error {
 	cm := corev1.ConfigMap{}
-	err := cli.Get(ctx, types.NamespacedName{Namespace: env.CubeNamespace(), Name: featureConfigMap}, &cm)
+	err := cli.Get(ctx, types.NamespacedName{Namespace: env.KubeNamespace(), Name: featureConfigMap}, &cm)
 	if err != nil {
 		return err
 	}

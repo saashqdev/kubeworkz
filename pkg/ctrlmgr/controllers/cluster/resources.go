@@ -166,7 +166,7 @@ func makeDeployment(cluster string, isMemberCluster bool) *appsv1.Deployment {
 			"-tls-key=/etc/tls/tls.key",
 			fmt.Sprintf("-in-member-cluster=%v", isMemberCluster),
 			fmt.Sprintf("-cluster=%s", cluster),
-			fmt.Sprintf("-pivot-kube-host=%s", env.PivotCubeHost()),
+			fmt.Sprintf("-pivot-kube-host=%s", env.PivotKubeHost()),
 		}
 
 		kubeConfigVolume = corev1.Volume{
@@ -263,14 +263,14 @@ func makeDeployment(cluster string, isMemberCluster bool) *appsv1.Deployment {
 			"-tls-cert=/etc/tls/tls.crt",
 			"-tls-key=/etc/tls/tls.key",
 			fmt.Sprintf("-cluster=%s", cluster),
-			fmt.Sprintf("-pivot-kube-host=%s", env.PivotCubeClusterIPSvc()),
+			fmt.Sprintf("-pivot-kube-host=%s", env.PivotKubeClusterIPSvc()),
 		}
 	}
 
 	d := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      constants.Warden,
-			Namespace: env.CubeNamespace(),
+			Namespace: env.KubeNamespace(),
 			Labels:    label,
 		},
 		Spec: appsv1.DeploymentSpec{
@@ -321,7 +321,7 @@ func makeDeployment(cluster string, isMemberCluster bool) *appsv1.Deployment {
 							Operator: existsOp,
 						},
 						{
-							Key:      constants.CubeNodeTaint,
+							Key:      constants.KubeNodeTaint,
 							Operator: existsOp,
 							Effect:   "NoSchedule",
 						},
@@ -339,7 +339,7 @@ func makeKubeConfigCM(pivotCluster *clusterv1.Cluster) *corev1.ConfigMap {
 	cm := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      configMapName,
-			Namespace: env.CubeNamespace(),
+			Namespace: env.KubeNamespace(),
 		},
 		Data: map[string]string{"config": string(pivotCluster.Spec.KubeConfig)},
 	}
@@ -354,7 +354,7 @@ func makeKubeConfigSecret(pivotCluster, targetCluster *clusterv1.Cluster) *corev
 
 	s := &corev1.Secret{ObjectMeta: metav1.ObjectMeta{
 		Name:      "kubeconfigs",
-		Namespace: env.CubeNamespace(),
+		Namespace: env.KubeNamespace(),
 	},
 		Data: map[string][]byte{
 			"localCluster": targetCluster.Spec.KubeConfig,
@@ -372,7 +372,7 @@ func makePrevJob() *batchv1.Job {
 	return &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "install-dependence",
-			Namespace: env.CubeNamespace(),
+			Namespace: env.KubeNamespace(),
 		},
 		Spec: batchv1.JobSpec{
 			BackoffLimit: int32Ptr(4),
@@ -424,7 +424,7 @@ func makePrevJob() *batchv1.Job {
 							Operator: existsOp,
 						},
 						{
-							Key:      constants.CubeNodeTaint,
+							Key:      constants.KubeNodeTaint,
 							Operator: existsOp,
 							Effect:   "NoSchedule",
 						},
@@ -443,7 +443,7 @@ func makeWardenSvc() *corev1.Service {
 	s := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "warden",
-			Namespace: env.CubeNamespace(),
+			Namespace: env.KubeNamespace(),
 			Labels:    label,
 		},
 		Spec: corev1.ServiceSpec{
@@ -478,7 +478,7 @@ func makeWardenSvc() *corev1.Service {
 func makeNamespace() *corev1.Namespace {
 	return &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: env.CubeNamespace(),
+			Name: env.KubeNamespace(),
 		},
 	}
 }
@@ -535,7 +535,7 @@ func makeTLSSecret() *corev1.Secret {
 	secret := corev1.Secret{}
 	key := types.NamespacedName{
 		Name:      tlsSecretName,
-		Namespace: env.CubeNamespace(),
+		Namespace: env.KubeNamespace(),
 	}
 	err := pClient.Get(context.Background(), key, &secret)
 	if err != nil {
@@ -585,7 +585,7 @@ func makeClusterRoleBinding() *rbacv1.ClusterRoleBinding {
 			{
 				Name:      "default",
 				Kind:      constants.K8sKindServiceAccount,
-				Namespace: env.CubeNamespace(),
+				Namespace: env.KubeNamespace(),
 			},
 		},
 	}

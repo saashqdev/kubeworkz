@@ -34,7 +34,7 @@ import (
 	"github.com/saashqdev/kubeworkz/pkg/utils/strslice"
 )
 
-func (o *QuotaOperator) isExceedParent(parent *quotav1.CubeResourceQuota) (bool, string) {
+func (o *QuotaOperator) isExceedParent(parent *quotav1.KubeResourceQuota) (bool, string) {
 	current := o.CurrentQuota
 	old := o.OldQuota
 
@@ -114,7 +114,7 @@ func (o *QuotaOperator) allowQuotaUnsetField() (bool, error) {
 	return false, nil
 }
 
-func refreshUsedResource(current, old *v1.ResourceQuota, parent *quotav1.CubeResourceQuota, cli client.Client) (*quotav1.CubeResourceQuota, error) {
+func refreshUsedResource(current, old *v1.ResourceQuota, parent *quotav1.KubeResourceQuota, cli client.Client) (*quotav1.KubeResourceQuota, error) {
 	newParentUsed := quota.ClearQuotas(parent.Status.Used)
 
 	for _, sub := range parent.Status.SubResourceQuotas {
@@ -144,7 +144,7 @@ func refreshUsedResource(current, old *v1.ResourceQuota, parent *quotav1.CubeRes
 			subResourceQuota = current
 		}
 
-		clog.Info("populate used of CubeResourceQuota %v with subResourceQuota %v", parent.Name, sub)
+		clog.Info("populate used of KubeResourceQuota %v with subResourceQuota %v", parent.Name, sub)
 
 		for _, rs := range quota.ResourceNames {
 			// continue if parent used quota had no that resource
@@ -164,7 +164,7 @@ func refreshUsedResource(current, old *v1.ResourceQuota, parent *quotav1.CubeRes
 
 	parent.Status.Used = newParentUsed
 	clog.Info("refreshed sub resource quota of %v is %v", parent.Name, parent.Status.SubResourceQuotas)
-	clog.Debug("refreshed used of CubeResourceQuota %v is %v", parent.Name, newParentUsed)
+	clog.Debug("refreshed used of KubeResourceQuota %v is %v", parent.Name, newParentUsed)
 
 	return parent, nil
 }

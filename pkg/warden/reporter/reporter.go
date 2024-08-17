@@ -28,7 +28,7 @@ import (
 	"github.com/saashqdev/kubeworkz/pkg/utils/ctls"
 )
 
-var log clog.CubeLogger
+var log clog.KubeLogger
 
 const (
 	// waitPeriod default wait timeout
@@ -46,8 +46,8 @@ type Reporter struct {
 	// IsWritable indicate if current cluster is writable
 	IsWritable bool
 
-	// PivotCubeHost the target warden to reporting
-	PivotCubeHost string
+	// PivotKubeHost the target warden to reporting
+	PivotKubeHost string
 
 	// PeriodSecond is interval time to reporting info
 	PeriodSecond int

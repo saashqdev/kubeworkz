@@ -31,8 +31,8 @@ const (
 	// LocalCluster the internal cluster where program stand with
 	LocalCluster = "_local_cluster"
 
-	// DefaultPivotCubeClusterIPSvc default pivot kube svc
-	DefaultPivotCubeClusterIPSvc = "kubeworkz:7443"
+	// DefaultPivotKubeClusterIPSvc default pivot kube svc
+	DefaultPivotKubeClusterIPSvc = "kubeworkz:7443"
 
 	DefaultAuditURL = "http://audit:8888/api/v1/kube/audit/kube"
 )
@@ -120,8 +120,8 @@ const (
 	// ProjectNsPrefix represent the namespace which relate with project
 	ProjectNsPrefix = "kubeworkz-project-"
 
-	// CubeQuotaLabel point to CubeResourceQuota
-	CubeQuotaLabel = "kubeworkz.io/quota"
+	// KubeQuotaLabel point to KubeResourceQuota
+	KubeQuotaLabel = "kubeworkz.io/quota"
 
 	// RbacLabel indicates the resource of rbac is related with kubeworkz
 	RbacLabel = "kubeworkz.io/rbac"
@@ -139,11 +139,11 @@ const (
 )
 
 const (
-	// CubeNodeTaint is node taint that managed by KubeWorkz
-	CubeNodeTaint = "node.kubeworkz.io"
+	// KubeNodeTaint is node taint that managed by KubeWorkz
+	KubeNodeTaint = "node.kubeworkz.io"
 
-	// CubeCnAnnotation is the annotation of cluster contains cluster cn name
-	CubeCnAnnotation = "cluster.kubeworkz.io/cn-name"
+	// KubeCnAnnotation is the annotation of cluster contains cluster cn name
+	KubeCnAnnotation = "cluster.kubeworkz.io/cn-name"
 )
 
 // hnc related const

@@ -55,8 +55,8 @@ type APIServer struct {
 // @title Swagger KubeWorkz API
 // @version 1.0
 // @description This is KubeWorkz api documentation.
-// registerCubeAPI register apis for kube api server
-func registerCubeAPI(cfg *Config) http.Handler {
+// registerKubeAPI register apis for kube api server
+func registerKubeAPI(cfg *Config) http.Handler {
 	router := gin.New()
 
 	// register apis do not need middlewares
@@ -120,7 +120,7 @@ func registerCubeAPI(cfg *Config) http.Handler {
 }
 
 func NewAPIServerWithOpts(opts *Config) *APIServer {
-	router := registerCubeAPI(opts)
+	router := registerKubeAPI(opts)
 
 	s := &APIServer{
 		Server: &http.Server{

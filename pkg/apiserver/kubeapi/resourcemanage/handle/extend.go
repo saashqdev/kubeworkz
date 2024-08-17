@@ -169,7 +169,7 @@ func GetFeatureConfig(c *gin.Context) {
 	}
 
 	cm := &corev1.ConfigMap{}
-	key := types.NamespacedName{Name: "kubeworkz-feature-config", Namespace: env.CubeNamespace()}
+	key := types.NamespacedName{Name: "kubeworkz-feature-config", Namespace: env.KubeNamespace()}
 
 	err := cli.Cache().Get(c.Request.Context(), key, cm)
 	if err != nil {
@@ -200,7 +200,7 @@ func GetConfigMap(c *gin.Context) {
 	}
 
 	cm := &corev1.ConfigMap{}
-	key := types.NamespacedName{Name: cmName, Namespace: env.CubeNamespace()}
+	key := types.NamespacedName{Name: cmName, Namespace: env.KubeNamespace()}
 
 	err := cli.Cache().Get(c.Request.Context(), key, cm)
 	if err != nil {

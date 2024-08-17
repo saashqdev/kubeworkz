@@ -45,7 +45,7 @@ var syncResources = []client.Object{
 	&tenant.Project{},
 	&user.User{},
 	&extension.ExternalResource{},
-	&quota.CubeResourceQuota{},
+	&quota.KubeResourceQuota{},
 }
 
 var syncListResources = []client.ObjectList{
@@ -61,7 +61,7 @@ var syncListResources = []client.ObjectList{
 	&tenant.ProjectList{},
 	&user.UserList{},
 	&extension.ExternalResourceList{},
-	&quota.CubeResourceQuotaList{},
+	&quota.KubeResourceQuotaList{},
 }
 
 type GenericObjFunc func(obj client.Object) (client.Object, error)
@@ -85,8 +85,8 @@ func newGenericObj(obj client.Object) (client.Object, error) {
 		return &tenant.Project{}, nil
 	case *tenant.Tenant:
 		return &tenant.Tenant{}, nil
-	case *quota.CubeResourceQuota:
-		return &quota.CubeResourceQuota{}, nil
+	case *quota.KubeResourceQuota:
+		return &quota.KubeResourceQuota{}, nil
 	case *corev1.Namespace:
 		return &corev1.Namespace{}, nil
 	case *hotplug.Hotplug:

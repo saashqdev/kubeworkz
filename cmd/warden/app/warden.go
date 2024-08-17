@@ -42,7 +42,7 @@ var (
 
 func run(s *options.WardenOptions, stop <-chan struct{}) {
 	// init kube logger first
-	clog.InitCubeLoggerWithOpts(s.CubeLoggerOpts)
+	clog.InitKubeLoggerWithOpts(s.KubeLoggerOpts)
 
 	// init setting klog level
 	var klogLevel klog.Level

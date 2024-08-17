@@ -61,7 +61,7 @@ func (r *Reporter) registerIfNeed(ctx context.Context) error {
 		return err
 	}
 
-	clog.Info("pivot kubeworkz address is %v", r.PivotCubeHost)
+	clog.Info("pivot kubeworkz address is %v", r.PivotKubeHost)
 
 	return wait.PollUntilContextTimeout(ctx, 3*time.Second, 15*time.Second, false, func(ctx context.Context) (done bool, err error) {
 		cluster := &clusterv1.Cluster{
@@ -112,7 +112,7 @@ func (r *Reporter) do(info scout.WardenInfo) (*http.Response, error) {
 
 	reader := bytes.NewReader(data)
 
-	url := r.PivotCubeHost
+	url := r.PivotKubeHost
 	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		// default, use https as scheme
 		url = "https://" + url

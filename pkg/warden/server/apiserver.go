@@ -27,7 +27,7 @@ import (
 	"github.com/saashqdev/kubeworkz/pkg/warden/server/authproxy"
 )
 
-var log clog.CubeLogger
+var log clog.KubeLogger
 
 type Server struct {
 	Server                 *http.Server

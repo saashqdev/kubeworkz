@@ -24,16 +24,16 @@ func init() {
 		&cli.BoolFlag{
 			Name:        "enable-pprof",
 			Value:       false,
-			Destination: &CubeOpts.GenericCubeOpts.EnablePprof,
+			Destination: &KubeOpts.GenericKubeOpts.EnablePprof,
 		},
 		&cli.StringFlag{
 			Name:        "pprof-addr",
-			Destination: &CubeOpts.GenericCubeOpts.PprofAddr,
+			Destination: &KubeOpts.GenericKubeOpts.PprofAddr,
 		},
 		&cli.StringFlag{
 			Name:        "klog-level",
 			Value:       "3",
-			Destination: &CubeOpts.GenericCubeOpts.KlogLevel,
+			Destination: &KubeOpts.GenericKubeOpts.KlogLevel,
 		},
 	}...)
 }

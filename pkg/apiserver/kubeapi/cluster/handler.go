@@ -64,7 +64,7 @@ func (h *handler) AddApisTo(root *gin.Engine) {
 	r.POST("register", h.registerCluster)
 	r.POST("add", h.addCluster)
 	r.POST("nsquota", h.createNsAndQuota)
-	r.GET("kuberesourcequotas", h.getCubeResourceQuota)
+	r.GET("kuberesourcequotas", h.getKubeResourceQuota)
 }
 
 type result struct {
@@ -469,7 +469,7 @@ func (h *handler) getSubNamespaces(c *gin.Context) {
 				continue
 			}
 
-			clusterName := cluster.RawCluster.Annotations[constants.CubeCnAnnotation]
+			clusterName := cluster.RawCluster.Annotations[constants.KubeCnAnnotation]
 			if len(clusterName) == 0 {
 				clusterName = cluster.Name
 			}
@@ -720,7 +720,7 @@ func (h *handler) createNsAndQuota(c *gin.Context) {
 	response.SuccessJsonReturn(c, "success")
 }
 
-type getCubeResourceQuotaResp struct {
+type getKubeResourceQuotaResp struct {
 	Total int                     `json:"total"`
 	Items []kubeResourceQuotaData `json:"items"`
 }
@@ -730,12 +730,12 @@ type kubeResourceQuotaData struct {
 	ClusterIdentity   string                     `json:"clusterIdentity"`
 	Tenant            string                     `json:"tenant"`
 	TenantName        string                     `json:"tenantName"`
-	CubeResourceQuota *quotav1.CubeResourceQuota `json:"kubeResourceQuota"`
+	KubeResourceQuota *quotav1.KubeResourceQuota `json:"kubeResourceQuota"`
 	ExclusiveNodeHard map[string]v1.ResourceList `json:"exclusiveNodeHard"`
 	ClusterState      *clusterv1.ClusterState    `json:"clusterState"`
 }
 
-func (h *handler) getCubeResourceQuota(c *gin.Context) {
+func (h *handler) getKubeResourceQuota(c *gin.Context) {
 	ts := c.Query("tenants")
 	cs := c.Query("clusters")
 	userName := c.Query("user")
@@ -761,13 +761,13 @@ func (h *handler) getCubeResourceQuota(c *gin.Context) {
 		return
 	}
 
-	res, err := listCubeResourceQuota(ctx, h.Client, visibleTenants, visibleTenantsCr, clusters)
+	res, err := listKubeResourceQuota(ctx, h.Client, visibleTenants, visibleTenantsCr, clusters)
 	if err != nil {
 		response.FailReturn(c, errcode.CustomReturn(http.StatusBadRequest, err.Error()))
 		return
 	}
 
-	res = sortCubeResourceQuotas(res)
+	res = sortKubeResourceQuotas(res)
 
-	response.SuccessReturn(c, getCubeResourceQuotaResp{Total: len(res), Items: res})
+	response.SuccessReturn(c, getKubeResourceQuotaResp{Total: len(res), Items: res})
 }

@@ -41,7 +41,7 @@ import (
 )
 
 var (
-	log clog.CubeLogger
+	log clog.KubeLogger
 
 	_ reconcile.Reconciler = &ClusterReconciler{}
 )

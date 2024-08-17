@@ -76,7 +76,7 @@ var (
 		// reporter
 		&cli.StringFlag{
 			Name:        "pivot-kube-host",
-			Destination: &WardenOpts.GenericWardenOpts.PivotCubeHost,
+			Destination: &WardenOpts.GenericWardenOpts.PivotKubeHost,
 		},
 		&cli.IntFlag{
 			Name:        "period-second",
@@ -120,44 +120,44 @@ var (
 		&cli.StringFlag{
 			Name:        "log-file",
 			Value:       "/etc/logs/warden.log",
-			Destination: &WardenOpts.CubeLoggerOpts.LogFile,
+			Destination: &WardenOpts.KubeLoggerOpts.LogFile,
 		},
 		&cli.IntFlag{
 			Name:        "max-size",
 			Value:       1000,
-			Destination: &WardenOpts.CubeLoggerOpts.MaxSize,
+			Destination: &WardenOpts.KubeLoggerOpts.MaxSize,
 		},
 		&cli.IntFlag{
 			Name:        "max-backups",
 			Value:       7,
-			Destination: &WardenOpts.CubeLoggerOpts.MaxBackups,
+			Destination: &WardenOpts.KubeLoggerOpts.MaxBackups,
 		},
 		&cli.IntFlag{
 			Name:        "max-age",
 			Value:       1,
-			Destination: &WardenOpts.CubeLoggerOpts.MaxAge,
+			Destination: &WardenOpts.KubeLoggerOpts.MaxAge,
 		},
 		&cli.BoolFlag{
 			Name:        "compress",
 			Value:       true,
-			Destination: &WardenOpts.CubeLoggerOpts.Compress,
+			Destination: &WardenOpts.KubeLoggerOpts.Compress,
 		},
 
 		// logger flags
 		&cli.StringFlag{
 			Name:        "log-level",
 			Value:       "info",
-			Destination: &WardenOpts.CubeLoggerOpts.LogLevel,
+			Destination: &WardenOpts.KubeLoggerOpts.LogLevel,
 		},
 		&cli.BoolFlag{
 			Name:        "json-encode",
 			Value:       false,
-			Destination: &WardenOpts.CubeLoggerOpts.JsonEncode,
+			Destination: &WardenOpts.KubeLoggerOpts.JsonEncode,
 		},
 		&cli.StringFlag{
 			Name:        "stacktrace-level",
 			Value:       "error",
-			Destination: &WardenOpts.CubeLoggerOpts.StacktraceLevel,
+			Destination: &WardenOpts.KubeLoggerOpts.StacktraceLevel,
 		},
 		&cli.StringFlag{
 			Name:        "ingress-nginx-namespace",

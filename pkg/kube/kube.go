@@ -32,19 +32,19 @@ type Runnable interface {
 	Initialize() error
 }
 
-type Cube struct {
+type Kube struct {
 	*Config
 
 	RunnableComponents map[string]Runnable
 }
 
-var _ Runnable = &Cube{}
+var _ Runnable = &Kube{}
 
-func New(c *Config) *Cube {
-	return &Cube{Config: c, RunnableComponents: make(map[string]Runnable)}
+func New(c *Config) *Kube {
+	return &Kube{Config: c, RunnableComponents: make(map[string]Runnable)}
 }
 
-func (c *Cube) IntegrateWith(name string, r Runnable) {
+func (c *Kube) IntegrateWith(name string, r Runnable) {
 	if name == "" {
 		clog.Fatal("component name is empty")
 	}
@@ -60,7 +60,7 @@ func (c *Cube) IntegrateWith(name string, r Runnable) {
 	c.RunnableComponents[name] = r
 }
 
-func (c *Cube) Run(stop <-chan struct{}) {
+func (c *Kube) Run(stop <-chan struct{}) {
 	if c.EnablePprof {
 		go func() {
 			if err := http.ListenAndServe(c.PprofAddr, nil); err != nil {
@@ -80,7 +80,7 @@ func (c *Cube) Run(stop <-chan struct{}) {
 
 // Initialize init all components of kube, block util initialization
 // completed or error occurred.
-func (c *Cube) Initialize() error {
+func (c *Kube) Initialize() error {
 	if len(c.RunnableComponents) < 1 {
 		clog.Fatal("kube have no components to initialize")
 	}

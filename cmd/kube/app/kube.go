@@ -40,7 +40,7 @@ var (
 		}
 
 		var err error
-		flags.CubeOpts, err = options.LoadConfigFromDisk()
+		flags.KubeOpts, err = options.LoadConfigFromDisk()
 		if err != nil {
 			return err
 		}
@@ -49,29 +49,29 @@ var (
 	}
 
 	Start = func(c *cli.Context) error {
-		if errs := flags.CubeOpts.Validate(); len(errs) > 0 {
+		if errs := flags.KubeOpts.Validate(); len(errs) > 0 {
 			return utilerrors.NewAggregate(errs)
 		}
 
-		run(flags.CubeOpts, signals.SetupSignalHandler())
+		run(flags.KubeOpts, signals.SetupSignalHandler())
 
 		return nil
 	}
 )
 
-func run(s *options.CubeOptions, stop <-chan struct{}) {
+func run(s *options.KubeOptions, stop <-chan struct{}) {
 	// init kube logger first
-	clog.InitCubeLoggerWithOpts(flags.CubeOpts.CubeLoggerOpts)
+	clog.InitKubeLoggerWithOpts(flags.KubeOpts.KubeLoggerOpts)
 
 	// init setting klog level
 	var klogLevel klog.Level
-	if err := klogLevel.Set(flags.CubeOpts.GenericCubeOpts.KlogLevel); err != nil {
+	if err := klogLevel.Set(flags.KubeOpts.GenericKubeOpts.KlogLevel); err != nil {
 		clog.Fatal("klog level set failed: %v", err)
 	}
 
 	log.SetLogger(klog.NewKlogr())
 	// initialize kube client set
-	clients.InitCubeClientSetWithOpts(s.ClientMgrOpts)
+	clients.InitKubeClientSetWithOpts(s.ClientMgrOpts)
 
 	// initialize language managers
 	m, err := international.InitGi18nManagers()
@@ -80,7 +80,7 @@ func run(s *options.CubeOptions, stop <-chan struct{}) {
 	}
 	s.APIServerOpts.Gi18nManagers = m
 
-	c := kube.New(s.GenericCubeOpts)
+	c := kube.New(s.GenericKubeOpts)
 	c.IntegrateWith("kube-controller-manager", ctrlmgr.NewCtrlMgrWithOpts(s.CtrlMgrOpts))
 	c.IntegrateWith("kube-apiserver", apiserver.NewAPIServerWithOpts(s.APIServerOpts))
 

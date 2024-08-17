@@ -34,7 +34,7 @@ import (
 )
 
 var (
-	clusterLog clog.CubeLogger
+	clusterLog clog.KubeLogger
 	//clusterClient client.Client
 )
 
@@ -103,7 +103,7 @@ var annotationCnValueRegexp = regexp.MustCompile("^" + annotationCnValueFmt + "$
 
 // generateValidate validate properties of cluster
 func generateValidate(cluster clusterv1.Cluster) error {
-	cnName, ok := cluster.GetAnnotations()[constants.CubeCnAnnotation]
+	cnName, ok := cluster.GetAnnotations()[constants.KubeCnAnnotation]
 	if ok {
 		if err := isValidCnName(cnName); err != nil {
 			return err

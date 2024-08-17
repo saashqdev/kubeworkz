@@ -91,7 +91,7 @@ var _ = Describe("Handle", func() {
 			Lists:                []client.ObjectList{&corev1.NamespaceList{Items: []corev1.Namespace{ns1, ns2, ns3}}},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 
 	})
 

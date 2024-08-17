@@ -31,7 +31,7 @@ import (
 // deprecated: global v is not good
 var Cluster string
 
-func GetPivotConfig(pivotClusterKubeConfig, pivotCubeHost string) (*restclient.Config, error) {
+func GetPivotConfig(pivotClusterKubeConfig, pivotKubeHost string) (*restclient.Config, error) {
 	if len(pivotClusterKubeConfig) != 0 {
 		cfg, err := clientcmd.BuildConfigFromFlags("", pivotClusterKubeConfig)
 		if err != nil {
@@ -45,7 +45,7 @@ func GetPivotConfig(pivotClusterKubeConfig, pivotCubeHost string) (*restclient.C
 		return nil, errInfo
 	}
 
-	host := pivotCubeHost
+	host := pivotKubeHost
 	if !strings.HasPrefix(host, "http://") && !strings.HasPrefix(host, "https://") {
 		// default, use https as scheme
 		host = "https://" + host

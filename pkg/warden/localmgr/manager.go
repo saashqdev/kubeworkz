@@ -37,7 +37,7 @@ import (
 const healthProbeAddr = "0.0.0.0:9778"
 
 var (
-	log clog.CubeLogger
+	log clog.KubeLogger
 
 	scheme = runtime.NewScheme()
 )
@@ -76,7 +76,7 @@ func (m *LocalManager) Initialize() error {
 		Port:                    m.WebhookServerPort,
 		LeaderElection:          m.LeaderElect,
 		LeaderElectionID:        "kube-kube-warden-local-manager",
-		LeaderElectionNamespace: env.CubeNamespace(),
+		LeaderElectionNamespace: env.KubeNamespace(),
 		HealthProbeBindAddress:  healthProbeAddr,
 		MetricsBindAddress:      "0",
 	})

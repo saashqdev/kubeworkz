@@ -25,63 +25,63 @@ func init() {
 		&cli.StringFlag{
 			Name:        "bind-addr",
 			Value:       "0.0.0.0",
-			Destination: &CubeOpts.APIServerOpts.BindAddr,
+			Destination: &KubeOpts.APIServerOpts.BindAddr,
 		},
 		&cli.IntFlag{
 			Name:        "insecure-port",
-			Destination: &CubeOpts.APIServerOpts.InsecurePort,
+			Destination: &KubeOpts.APIServerOpts.InsecurePort,
 		},
 		&cli.IntFlag{
 			Name:        "secure-port",
 			Value:       7443,
-			Destination: &CubeOpts.APIServerOpts.SecurePort,
+			Destination: &KubeOpts.APIServerOpts.SecurePort,
 		},
 		&cli.IntFlag{
 			Name:        "generic-port",
 			Value:       7777,
-			Destination: &CubeOpts.APIServerOpts.GenericPort,
+			Destination: &KubeOpts.APIServerOpts.GenericPort,
 		},
 		&cli.BoolFlag{
 			Name:        "enable-swag",
 			Value:       false,
-			Destination: &CubeOpts.APIServerOpts.SwagEnable,
+			Destination: &KubeOpts.APIServerOpts.SwagEnable,
 		},
 		&cli.StringFlag{
 			Name:        "tls-cert",
-			Destination: &CubeOpts.APIServerOpts.TlsCert,
+			Destination: &KubeOpts.APIServerOpts.TlsCert,
 		},
 		&cli.StringFlag{
 			Name:        "tls-key",
-			Destination: &CubeOpts.APIServerOpts.TlsKey,
+			Destination: &KubeOpts.APIServerOpts.TlsKey,
 		},
 		&cli.StringFlag{
 			Name:        "ca-cert",
-			Destination: &CubeOpts.APIServerOpts.CaCert,
+			Destination: &KubeOpts.APIServerOpts.CaCert,
 		},
 		&cli.StringFlag{
 			Name:        "ca-key",
-			Destination: &CubeOpts.APIServerOpts.CaKey,
+			Destination: &KubeOpts.APIServerOpts.CaKey,
 		},
 		// todo(weilaaa): move this flag to suitable place
 		&cli.BoolFlag{
 			Name:        "enable-version-conversion",
 			Value:       false,
-			Destination: &CubeOpts.APIServerOpts.EnableVersionConversion,
+			Destination: &KubeOpts.APIServerOpts.EnableVersionConversion,
 		},
 		&cli.StringFlag{
 			Name:        "ingress-nginx-namespace",
 			Value:       "ingress-nginx",
-			Destination: &CubeOpts.APIServerOpts.NginxNamespace,
+			Destination: &KubeOpts.APIServerOpts.NginxNamespace,
 		},
 		&cli.StringFlag{
 			Name:        "ingress-nginx-tcp-configmap",
 			Value:       "tcp-services",
-			Destination: &CubeOpts.APIServerOpts.NginxTcpServiceConfigMap,
+			Destination: &KubeOpts.APIServerOpts.NginxTcpServiceConfigMap,
 		},
 		&cli.StringFlag{
 			Name:        "ingress-nginx-udp-configmap",
 			Value:       "udp-services",
-			Destination: &CubeOpts.APIServerOpts.NginxUdpServiceConfigMap,
+			Destination: &KubeOpts.APIServerOpts.NginxUdpServiceConfigMap,
 		},
 	}...)
 }

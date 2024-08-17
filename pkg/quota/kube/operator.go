@@ -37,13 +37,13 @@ import (
 
 type QuotaOperator struct {
 	Client       client.Client
-	CurrentQuota *quotav1.CubeResourceQuota
-	OldQuota     *quotav1.CubeResourceQuota
+	CurrentQuota *quotav1.KubeResourceQuota
+	OldQuota     *quotav1.KubeResourceQuota
 
 	context.Context
 }
 
-func NewQuotaOperator(client client.Client, current, old *quotav1.CubeResourceQuota, ctx context.Context) quota.Interface {
+func NewQuotaOperator(client client.Client, current, old *quotav1.KubeResourceQuota, ctx context.Context) quota.Interface {
 	return &QuotaOperator{
 		Client:       client,
 		CurrentQuota: current,
@@ -52,7 +52,7 @@ func NewQuotaOperator(client client.Client, current, old *quotav1.CubeResourceQu
 	}
 }
 
-func (o *QuotaOperator) Parent() (*quotav1.CubeResourceQuota, error) {
+func (o *QuotaOperator) Parent() (*quotav1.KubeResourceQuota, error) {
 	var parentName string
 
 	if o.CurrentQuota == nil {
@@ -66,7 +66,7 @@ func (o *QuotaOperator) Parent() (*quotav1.CubeResourceQuota, error) {
 	}
 
 	key := types.NamespacedName{Name: parentName}
-	parentQuota := &quotav1.CubeResourceQuota{}
+	parentQuota := &quotav1.KubeResourceQuota{}
 
 	err := o.Client.Get(o.Context, key, parentQuota)
 	if err != nil {
@@ -138,7 +138,7 @@ func (o *QuotaOperator) UpdateParentStatus(flush bool) error {
 	}
 
 	return retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		newQuota := &quotav1.CubeResourceQuota{}
+		newQuota := &quotav1.KubeResourceQuota{}
 		err := o.Client.Get(context.Background(), types.NamespacedName{Name: refreshed.Name}, newQuota)
 		if err != nil {
 			return err
@@ -152,7 +152,7 @@ func (o *QuotaOperator) UpdateParentStatus(flush bool) error {
 	})
 }
 
-func isTenantKind(quotas ...*quotav1.CubeResourceQuota) bool {
+func isTenantKind(quotas ...*quotav1.KubeResourceQuota) bool {
 	for _, q := range quotas {
 		if q != nil {
 			if q.Spec.Target.Kind == quotav1.TenantObj {
@@ -165,7 +165,7 @@ func isTenantKind(quotas ...*quotav1.CubeResourceQuota) bool {
 }
 
 // InitStatus initialize status of quota
-func InitStatus(current *quotav1.CubeResourceQuota) {
+func InitStatus(current *quotav1.KubeResourceQuota) {
 	current.Status.Hard = current.Spec.Hard
 	// if target object of quota is NodesPool, we should use the physical resource
 	// as value to the hard of the status
@@ -184,7 +184,7 @@ func InitStatus(current *quotav1.CubeResourceQuota) {
 
 // AllowedDel return true if deletion of current kube resource quota
 // is allowed, otherwise false
-func AllowedDel(current *quotav1.CubeResourceQuota) bool {
+func AllowedDel(current *quotav1.KubeResourceQuota) bool {
 	if current.Status.SubResourceQuotas != nil {
 		if len(current.Status.SubResourceQuotas) > 0 {
 			return false
@@ -196,7 +196,7 @@ func AllowedDel(current *quotav1.CubeResourceQuota) bool {
 
 // AllowedUpdate return false if hard of current is less than old status
 // otherwise true
-func AllowedUpdate(current, old *quotav1.CubeResourceQuota) bool {
+func AllowedUpdate(current, old *quotav1.KubeResourceQuota) bool {
 	for _, rs := range quota.ResourceNames {
 		currentHard := current.Spec.Hard
 		oldUsed := old.Status.Used
@@ -224,7 +224,7 @@ func AllowedUpdate(current, old *quotav1.CubeResourceQuota) bool {
 	return true
 }
 
-func IsRelyOnObj(quotas ...*quotav1.CubeResourceQuota) bool {
+func IsRelyOnObj(quotas ...*quotav1.KubeResourceQuota) bool {
 	for _, q := range quotas {
 		if q != nil {
 			if len(q.UID) > 0 {

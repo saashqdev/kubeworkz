@@ -35,29 +35,29 @@ const (
 	defaultConfigPath    = "/etc/kubeworkz"
 )
 
-type CubeOptions struct {
-	GenericCubeOpts *kube.Config
+type KubeOptions struct {
+	GenericKubeOpts *kube.Config
 	APIServerOpts   *apiserver.Config
 	CtrlMgrOpts     *ctrlmgr.Config
 	ClientMgrOpts   *clients.Config
-	CubeLoggerOpts  *clog.Config
+	KubeLoggerOpts  *clog.Config
 	AuthMgrOpts     *authentication.Config
 }
 
-func NewCubeOptions() *CubeOptions {
-	kubeOpts := &CubeOptions{
-		GenericCubeOpts: &kube.Config{},
+func NewKubeOptions() *KubeOptions {
+	kubeOpts := &KubeOptions{
+		GenericKubeOpts: &kube.Config{},
 		APIServerOpts:   &apiserver.Config{},
 		CtrlMgrOpts:     &ctrlmgr.Config{},
 		ClientMgrOpts:   &clients.Config{},
-		CubeLoggerOpts:  &clog.Config{},
+		KubeLoggerOpts:  &clog.Config{},
 		AuthMgrOpts:     &authentication.Config{},
 	}
 
 	return kubeOpts
 }
 
-func LoadConfigFromDisk() (*CubeOptions, error) {
+func LoadConfigFromDisk() (*KubeOptions, error) {
 	viper.SetConfigName(defaultConfiguration)
 	viper.AddConfigPath(defaultConfigPath)
 	viper.AddConfigPath(".")
@@ -72,7 +72,7 @@ func LoadConfigFromDisk() (*CubeOptions, error) {
 		}
 	}
 
-	conf := NewCubeOptions()
+	conf := NewKubeOptions()
 
 	if err := viper.Unmarshal(conf); err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func LoadConfigFromDisk() (*CubeOptions, error) {
 
 // Validate verify options for every component
 // todo(weilaaa): complete it
-func (s *CubeOptions) Validate() []error {
+func (s *KubeOptions) Validate() []error {
 	var errs []error
 
 	errs = append(errs, s.APIServerOpts.Validate()...)
@@ -93,6 +93,6 @@ func (s *CubeOptions) Validate() []error {
 	return errs
 }
 
-func (s *CubeOptions) NewCube() *kube.Cube {
-	return &kube.Cube{}
+func (s *KubeOptions) NewKube() *kube.Kube {
+	return &kube.Kube{}
 }

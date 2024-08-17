@@ -109,7 +109,7 @@ var _ = Describe("Deployment", func() {
 			Lists:                []client.ObjectList{&dpList, &rsList, &podList, &eventList},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 	})
 
 	It("test get deployment extend info", func() {

@@ -277,8 +277,8 @@ func makeMetadataInfo(cluster clusterv1.Cluster) clusterMetaInfo {
 	}
 
 	// set cluster cn name same as en name by default
-	if _, ok := info.Annotations[constants.CubeCnAnnotation]; !ok {
-		info.Annotations[constants.CubeCnAnnotation] = cluster.Name
+	if _, ok := info.Annotations[constants.KubeCnAnnotation]; !ok {
+		info.Annotations[constants.KubeCnAnnotation] = cluster.Name
 	}
 
 	return info
@@ -464,7 +464,7 @@ func getAssignedResource(cli mgrclient.Client, cluster string) (cpu resource.Qua
 		return resource.Quantity{}, resource.Quantity{}, resource.Quantity{}, err
 	}
 
-	listObjs := v1.CubeResourceQuotaList{}
+	listObjs := v1.KubeResourceQuotaList{}
 	err = cli.Direct().List(context.Background(), &listObjs, &client.ListOptions{LabelSelector: labelSelector})
 	if err != nil {
 		return resource.Quantity{}, resource.Quantity{}, resource.Quantity{}, err
@@ -546,7 +546,7 @@ type clusterDate struct {
 	state  *clusterv1.ClusterState
 }
 
-func listCubeResourceQuota(ctx context.Context, cli mgrclient.Client, tenants []string, tenantsCr []tenantv1.Tenant, clusters []string) ([]kubeResourceQuotaData, error) {
+func listKubeResourceQuota(ctx context.Context, cli mgrclient.Client, tenants []string, tenantsCr []tenantv1.Tenant, clusters []string) ([]kubeResourceQuotaData, error) {
 	ls := labels.NewSelector()
 	r1, err := labels.NewRequirement(constants.ClusterLabel, selection.In, clusters)
 	if err != nil {
@@ -559,14 +559,14 @@ func listCubeResourceQuota(ctx context.Context, cli mgrclient.Client, tenants []
 	ls = ls.Add(*r1)
 	ls = ls.Add(*r2)
 
-	list := v1.CubeResourceQuotaList{}
+	list := v1.KubeResourceQuotaList{}
 	err = cli.Cache().List(ctx, &list, &client.ListOptions{LabelSelector: ls})
 	if err != nil {
 		return nil, err
 	}
 
 	// construct kube resource quota map
-	quotaMap := make(map[string]v1.CubeResourceQuota, len(list.Items))
+	quotaMap := make(map[string]v1.KubeResourceQuota, len(list.Items))
 	for _, v := range list.Items {
 		meta.TrimObjectMeta(&v)
 		quotaMap[v.Name] = v
@@ -582,7 +582,7 @@ func listCubeResourceQuota(ctx context.Context, cli mgrclient.Client, tenants []
 	for _, v := range clusterList.Items {
 		c := clusterDate{state: v.Status.State}
 		if v.Annotations != nil {
-			cnName, ok := v.Annotations[constants.CubeCnAnnotation]
+			cnName, ok := v.Annotations[constants.KubeCnAnnotation]
 			if ok {
 				c.cnName = cnName
 			}
@@ -598,13 +598,13 @@ func listCubeResourceQuota(ctx context.Context, cli mgrclient.Client, tenants []
 				ClusterName:       cluster,
 				Tenant:            tenant.Name,
 				TenantName:        tenant.Spec.DisplayName,
-				CubeResourceQuota: nil,
+				KubeResourceQuota: nil,
 				ExclusiveNodeHard: nil,
 			}
 			quotaName := strings.Join([]string{cluster, tenant.Name}, ".")
 			q, ok := quotaMap[quotaName]
 			if ok {
-				v.CubeResourceQuota = &q
+				v.KubeResourceQuota = &q
 			}
 			data, ok := clusterMap[cluster]
 			if ok {
@@ -645,7 +645,7 @@ func getExclusiveNodeHard(cli mgrclient.Client, tenant string) (map[string]corev
 	return ex, nil
 }
 
-func sortCubeResourceQuotas(qs []kubeResourceQuotaData) []kubeResourceQuotaData {
+func sortKubeResourceQuotas(qs []kubeResourceQuotaData) []kubeResourceQuotaData {
 	sort.SliceStable(qs, func(i, j int) bool {
 		return qs[i].Tenant+qs[i].ClusterName < qs[j].Tenant+qs[j].ClusterName
 	})
@@ -656,9 +656,9 @@ func sortCubeResourceQuotas(qs []kubeResourceQuotaData) []kubeResourceQuotaData 
 
 	for _, v := range qs {
 		switch {
-		case len(v.ExclusiveNodeHard) == 0 && v.CubeResourceQuota == nil:
+		case len(v.ExclusiveNodeHard) == 0 && v.KubeResourceQuota == nil:
 			bothUnsetted = append(bothUnsetted, v)
-		case len(v.ExclusiveNodeHard) == 0 || v.CubeResourceQuota == nil:
+		case len(v.ExclusiveNodeHard) == 0 || v.KubeResourceQuota == nil:
 			oneUnsetted = append(oneUnsetted, v)
 		default:
 			res = append(res, v)

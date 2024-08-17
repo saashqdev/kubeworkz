@@ -37,8 +37,8 @@ const (
 	ProjectObj   TargetKind = "Project"
 )
 
-// CubeResourceQuotaSpec defines the desired state of CubeResourceQuota
-type CubeResourceQuotaSpec struct {
+// KubeResourceQuotaSpec defines the desired state of KubeResourceQuota
+type KubeResourceQuotaSpec struct {
 	// Hard is the set of desired hard limits for each named resource.
 	// Its empty when TargetObj is NodesPoolObj
 	Hard v1.ResourceList `json:"hard,omitempty"`
@@ -52,8 +52,8 @@ type CubeResourceQuotaSpec struct {
 	Target TargetObj `json:"target,omitempty"`
 }
 
-// CubeResourceQuotaStatus defines the observed state of CubeResourceQuota
-type CubeResourceQuotaStatus struct {
+// KubeResourceQuotaStatus defines the observed state of KubeResourceQuota
+type KubeResourceQuotaStatus struct {
 	// Hard is the set of enforced hard limits for each named resource.
 	// Limit always equals to request when TargetObj is NodesPoolObj
 	// +optional
@@ -73,24 +73,24 @@ type CubeResourceQuotaStatus struct {
 //+kubebuilder:subresource:status
 //+kubebuilder:resource:categories="quota",scope="Cluster"
 
-// CubeResourceQuota is the Schema for the kuberesourcequota API
-type CubeResourceQuota struct {
+// KubeResourceQuota is the Schema for the kuberesourcequota API
+type KubeResourceQuota struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   CubeResourceQuotaSpec   `json:"spec,omitempty"`
-	Status CubeResourceQuotaStatus `json:"status,omitempty"`
+	Spec   KubeResourceQuotaSpec   `json:"spec,omitempty"`
+	Status KubeResourceQuotaStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// CubeResourceQuotaList contains a list of CubeResourceQuota
-type CubeResourceQuotaList struct {
+// KubeResourceQuotaList contains a list of KubeResourceQuota
+type KubeResourceQuotaList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []CubeResourceQuota `json:"items"`
+	Items           []KubeResourceQuota `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&CubeResourceQuota{}, &CubeResourceQuotaList{})
+	SchemeBuilder.Register(&KubeResourceQuota{}, &KubeResourceQuotaList{})
 }

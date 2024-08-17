@@ -37,7 +37,7 @@ import (
 const healthProbeAddr = "0.0.0.0:9777"
 
 var (
-	log clog.CubeLogger
+	log clog.KubeLogger
 
 	scheme = runtime.NewScheme()
 )
@@ -55,12 +55,12 @@ type SyncManager struct {
 	ctrl.Manager
 	LocalClient            client.Client
 	PivotClusterKubeConfig string
-	PivotCubeHost          string
+	PivotKubeHost          string
 }
 
 func (s *SyncManager) Initialize() error {
 	log = clog.WithName("syncmgr")
-	cfg, err := utils.GetPivotConfig(s.PivotClusterKubeConfig, s.PivotCubeHost)
+	cfg, err := utils.GetPivotConfig(s.PivotClusterKubeConfig, s.PivotKubeHost)
 	if err != nil {
 		return fmt.Errorf("error building kubeconfig: %s", err.Error())
 	}

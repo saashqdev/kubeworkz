@@ -23,13 +23,13 @@ import (
 
 type WardenOptions struct {
 	GenericWardenOpts *warden.Config
-	CubeLoggerOpts    *clog.Config
+	KubeLoggerOpts    *clog.Config
 }
 
 func NewWardenOptions() *WardenOptions {
 	wardenOpts := &WardenOptions{
 		GenericWardenOpts: &warden.Config{},
-		CubeLoggerOpts:    &clog.Config{},
+		KubeLoggerOpts:    &clog.Config{},
 	}
 
 	return wardenOpts

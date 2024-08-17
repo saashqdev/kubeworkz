@@ -88,14 +88,14 @@ func NewHandler() *handler {
 	h.Client = clients.Interface().Kubernetes(constants.LocalCluster)
 
 	cm := corev1.ConfigMap{}
-	nn := types.NamespacedName{Name: constants.AuthMappingCM, Namespace: env.CubeNamespace()}
+	nn := types.NamespacedName{Name: constants.AuthMappingCM, Namespace: env.KubeNamespace()}
 	err := h.Client.Direct().Get(context.Background(), nn, &cm)
 	if err != nil {
 		clog.Fatal("get auth item configmap %v failed: %v", nn, err)
 	}
 
 	platformCm := corev1.ConfigMap{}
-	nn1 := types.NamespacedName{Name: constants.AuthPlatformMappingCM, Namespace: env.CubeNamespace()}
+	nn1 := types.NamespacedName{Name: constants.AuthPlatformMappingCM, Namespace: env.KubeNamespace()}
 	err = h.Client.Direct().Get(context.Background(), nn1, &platformCm)
 	if err != nil {
 		clog.Fatal("get platform auth item configmap %v failed: %v", nn1, err)

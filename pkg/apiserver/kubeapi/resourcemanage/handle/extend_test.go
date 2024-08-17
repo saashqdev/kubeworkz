@@ -59,7 +59,7 @@ var _ = Describe("Handle", func() {
 			Lists:                []client.ObjectList{},
 		}
 		multicluster.InitFakeMultiClusterMgrWithOpts(opts)
-		clients.InitCubeClientSetWithOpts(nil)
+		clients.InitKubeClientSetWithOpts(nil)
 
 	})
 
