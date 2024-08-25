@@ -322,7 +322,7 @@ var doc = `{
         },
         "/api/v1/kube/clusters/addCluster": {
             "post": {
-                "description": "add cluster to KubeWorkz",
+                "description": "add cluster to Kubeworkz",
                 "tags": [
                     "cluster"
                 ],
@@ -389,7 +389,7 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"total\":3,\"items\":[{\"clusterName\":\"member-1\",\"clusterDescription\":\"this is member cluster\",\"networkType\":\"calico\",\"harborAddr\":\"\",\"isMemberCluster\":true,\"createTime\":\"2022-05-06T11:33:15+08:00\",\"kubeApiServer\":\"https://10.173.33.3:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":19,\"usedCpu\":549,\"totalCpu\":8000,\"usedMem\":7276,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3300,\"usedCpuLimit\":4200,\"usedMemRequest\":3874,\"usedMemLimit\":7265},{\"clusterName\":\"pivot-cluster\",\"clusterDescription\":\"There is a pivot cluster dating with KubeWorkz\",\"networkType\":\"\",\"harborAddr\":\"\",\"isMemberCluster\":false,\"createTime\":\"2022-04-28T14:41:26+08:00\",\"kubeApiServer\":\"10.173.33.2:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":18,\"usedCpu\":886,\"totalCpu\":8000,\"usedMem\":8996,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3000,\"usedCpuLimit\":3900,\"usedMemRequest\":3469,\"usedMemLimit\":6860},{\"clusterName\":\"member-2\",\"clusterDescription\":\"this is member cluster\",\"networkType\":\"calico\",\"harborAddr\":\"\",\"isMemberCluster\":true,\"createTime\":\"2022-04-28T16:12:13+08:00\",\"kubeApiServer\":\"10.173.33.4:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":19,\"usedCpu\":929,\"totalCpu\":8000,\"usedMem\":7187,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3000,\"usedCpuLimit\":3900,\"usedMemRequest\":3469,\"usedMemLimit\":6860}]}",
+                        "description": "{\"total\":3,\"items\":[{\"clusterName\":\"member-1\",\"clusterDescription\":\"this is member cluster\",\"networkType\":\"calico\",\"harborAddr\":\"\",\"isMemberCluster\":true,\"createTime\":\"2022-05-06T11:33:15+08:00\",\"kubeApiServer\":\"https://10.173.33.3:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":19,\"usedCpu\":549,\"totalCpu\":8000,\"usedMem\":7276,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3300,\"usedCpuLimit\":4200,\"usedMemRequest\":3874,\"usedMemLimit\":7265},{\"clusterName\":\"pivot-cluster\",\"clusterDescription\":\"There is a pivot cluster dating with Kubeworkz\",\"networkType\":\"\",\"harborAddr\":\"\",\"isMemberCluster\":false,\"createTime\":\"2022-04-28T14:41:26+08:00\",\"kubeApiServer\":\"10.173.33.2:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":18,\"usedCpu\":886,\"totalCpu\":8000,\"usedMem\":8996,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3000,\"usedCpuLimit\":3900,\"usedMemRequest\":3469,\"usedMemLimit\":6860},{\"clusterName\":\"member-2\",\"clusterDescription\":\"this is member cluster\",\"networkType\":\"calico\",\"harborAddr\":\"\",\"isMemberCluster\":true,\"createTime\":\"2022-04-28T16:12:13+08:00\",\"kubeApiServer\":\"10.173.33.4:6443\",\"status\":\"normal\",\"nodeCount\":1,\"namespaceCount\":19,\"usedCpu\":929,\"totalCpu\":8000,\"usedMem\":7187,\"totalMem\":16648,\"totalStorage\":0,\"usedStorage\":0,\"totalStorageEphemeral\":42208,\"usedStorageEphemeral\":0,\"totalGpu\":0,\"usedGpu\":0,\"usedCpuRequest\":3000,\"usedCpuLimit\":3900,\"usedMemRequest\":3469,\"usedMemLimit\":6860}]}",
                         "schema": {
                             "$ref": "#/definitions/pkg_apiserver_kubeapi_cluster.result"
                         }
@@ -2256,8 +2256,8 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "Swagger KubeWorkz API",
-	Description: "This is KubeWorkz api documentation.",
+	Title:       "Swagger Kubeworkz API",
+	Description: "This is Kubeworkz api documentation.",
 }
 
 type s struct{}

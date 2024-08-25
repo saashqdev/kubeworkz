@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,11 +36,11 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	app := cli.NewApp()
-	app.Name = "KubeWorkz"
+	app.Name = "Kubeworkz"
 	app.Usage = "KubWorkz K8s for the rest of us"
 	app.Version = version
 	app.Compiled = time.Now()
-	app.Copyright = "(c) " + strconv.Itoa(time.Now().Year()) + " KubeWorkz"
+	app.Copyright = "(c) " + strconv.Itoa(time.Now().Year()) + " Kubeworkz"
 
 	app.Flags = flags.Flags
 	app.Before = kube.Before

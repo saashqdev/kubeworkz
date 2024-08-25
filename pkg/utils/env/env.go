@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ func AuditSVC() AuditSvcApi {
 func AuditEventSource() string {
 	r := os.Getenv("AUDIT_EVENT_SOURCE")
 	if r == "" {
-		r = "KubeWorkz"
+		r = "Kubeworkz"
 	}
 	return r
 }

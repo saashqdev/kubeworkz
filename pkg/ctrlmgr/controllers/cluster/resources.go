@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ const (
 )
 
 func deployResources(ctx context.Context, cli client.Client, memberCluster, pivotCluster *clusterv1.Cluster) error {
-	// if target cluster is dating with KubeWorkz
+	// if target cluster is dating with Kubeworkz
 	// or warden use register mode, return directly
 	if isDatingCluster(ctx, cli, memberCluster.Name) || env.WardenRegisterModeEnable() == "true" {
 		return nil

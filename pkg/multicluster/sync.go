@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -162,7 +162,7 @@ func (m *SyncMgr) OnClusterUpdate(oldObj, newObj interface{}) {
 	}
 }
 
-// ReconcileCluster sync cluster during multi KubeWorkz instance
+// ReconcileCluster sync cluster during multi Kubeworkz instance
 func (m *SyncMgr) ReconcileCluster(key worker.QueueKey) error {
 	ckey, ok := key.(keys.ClusterWideKey)
 	if !ok {

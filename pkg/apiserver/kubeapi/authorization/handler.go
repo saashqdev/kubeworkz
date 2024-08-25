@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -812,7 +812,7 @@ type attributes struct {
 	Path            string `json:"path,omitempty"`
 }
 
-// authorization is out way for authorize by KubeWorkz
+// authorization is out way for authorize by Kubeworkz
 func (h *handler) authorization(c *gin.Context) {
 	a := &attributes{}
 	err := c.ShouldBindJSON(a)

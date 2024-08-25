@@ -900,7 +900,7 @@
 
 ## BugFix
 
-- `KubeWorkz:` fix the problem of resource quota webhook since conformance test
+- `Kubeworkz:` fix the problem of resource quota webhook since conformance test
 
 ## Dependencies
 
@@ -921,8 +921,8 @@
 
 ## BugFix
 
-- `KubeWorkz:`fix the bug that use old script to add member cluster
-- `KubeWorkz:`fix delete cluster failed
+- `Kubeworkz:`fix the bug that use old script to add member cluster
+- `Kubeworkz:`fix delete cluster failed
 
 ## Dependencies
 
@@ -948,7 +948,7 @@
 
 ## BugFix
 
-- `KubeWorkz:`decouple ClusterInfo api from metric server
+- `Kubeworkz:`decouple ClusterInfo api from metric server
 - `Warden:`fix hotplug {{.cluster}} injected error in the member cluster
 - `Warden:`added configmap to record components status for fron
 
@@ -956,7 +956,7 @@
 
 - `Warden:`optimize performance of warden informer
 - `Warden:`optimize status in the hotplug manifest
-- `KubeWorkz:`optimize performance of cluster controller
+- `Kubeworkz:`optimize performance of cluster controller
 
 ## Dependencies
 
@@ -982,7 +982,7 @@
 - Add account management
 - Add tenant, project management, and support level-by-level transfer of permissions
 - Support OpenAPI
-- Add record the operation audit log, supporting KubeWorkz  and K8s API Server
+- Add record the operation audit log, supporting Kubeworkz  and K8s API Server
 - Support the component hotplug
 
 ### K8s cluster management

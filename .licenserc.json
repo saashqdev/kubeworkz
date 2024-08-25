@@ -20,6 +20,6 @@
 		"Copyright"
 	],
 	"**/*.go": [
-		"KubeWorkz Authors"
+		"Kubeworkz Authors"
 	]
 }

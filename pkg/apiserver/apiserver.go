@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -52,9 +52,9 @@ type APIServer struct {
 	SimpleServer *http.Server
 }
 
-// @title Swagger KubeWorkz API
+// @title Swagger Kubeworkz API
 // @version 1.0
-// @description This is KubeWorkz api documentation.
+// @description This is Kubeworkz api documentation.
 // registerKubeAPI register apis for kube api server
 func registerKubeAPI(cfg *Config) http.Handler {
 	router := gin.New()

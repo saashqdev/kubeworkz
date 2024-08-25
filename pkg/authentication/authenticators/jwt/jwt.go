@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ func (a *AuthJwt) GenerateTokenWithExpired(user *v1beta1.UserInfo, expireDuratio
 	claims := Claims{
 		UserInfo: v1beta1.UserInfo{
 			Username: user.Username,
-			Groups:   []string{constants.KubeWorkz},
+			Groups:   []string{constants.Kubeworkz},
 		},
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Unix() + tokenExpireDuration,

@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ func tryConnectCluster(cluster clusterv1.Cluster) (client.Client, error) {
 	return cli, nil
 }
 
-// isDatingCluster tells if the cluster is dating with KubeWorkz
+// isDatingCluster tells if the cluster is dating with Kubeworkz
 func isDatingCluster(ctx context.Context, cli client.Client, cluster string) bool {
 	warden := appsv1.Deployment{}
 	err := cli.Get(ctx, client.ObjectKey{Name: constants.Warden, Namespace: env.KubeNamespace()}, &warden)

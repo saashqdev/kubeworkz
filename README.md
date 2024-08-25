@@ -1,11 +1,11 @@
-# KubeWorkz
+# Kubeworkz
 
 [![License](http://img.shields.io/badge/license-apache%20v2-blue.svg)](https://github.com/saashqdev/kubeworkz/blob/main/LICENSE)  [![Certified Kubernetes](https://img.shields.io/badge/Certified%20Kubernetes-yes-brightgreen)](https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&selected=kube-kube)
 
 
 ![logo](./docs/logo.png)
 
-KubeWorkz is an open source enterprise-level container platform that provides enterprises with visualized management of Kubernetes resources and unified multi-cluster-multi-tenant management functions. KubeWorkz can simplify application deployment, manage application life cycles and provide rich monitoring and log auditing functions, helping companies quickly build a powerful and feature-rich container cloud platform.
+Kubeworkz is an open source enterprise-level container platform that provides enterprises with visualized management of Kubernetes resources and unified multi-cluster-multi-tenant management functions. Kubeworkz can simplify application deployment, manage application life cycles and provide rich monitoring and log auditing functions, helping companies quickly build a powerful and feature-rich container cloud platform.
 
 ## Features
 
@@ -25,11 +25,11 @@ KubeWorkz is an open source enterprise-level container platform that provides en
   - Quickly manage cluster resources through WebConsole and CloudShell
 
 - **Cluster autonomy**
-  - When the KubeWorkz service is down for maintenance, each business cluster can service well, still support access control, and transparent to business Pods
+  - When the Kubeworkz service is down for maintenance, each business cluster can service well, still support access control, and transparent to business Pods
 
 - **[Hot Plug](https://kubeworkz.io/docs/installation-guide/enable-plugins/)**
   - Provide minimal installation, users can switch functions at any time according to their needs
-  - There is not need to restart the KubeWorkz service, while switching the function.
+  - There is not need to restart the Kubeworkz service, while switching the function.
 
 - **Multi-access**
   - Support [Open API](https://kubeworkz.io/docs/developer-guide/openapi-guide/): It is convenient to connect to users’ existing systems
@@ -63,9 +63,9 @@ KubeWorkz is an open source enterprise-level container platform that provides en
 
 ## Architecture
 
-The KubeWorkz is composed of components such as KubeWorkz Service, Warden, CloudShell, and AuditLog Server. Except for Warden, which is deployed in each Kubernetes cluster as an authentication agent, the rest of the components are deployed in the management cluster.
+The Kubeworkz is composed of components such as Kubeworkz Service, Warden, CloudShell, and AuditLog Server. Except for Warden, which is deployed in each Kubernetes cluster as an authentication agent, the rest of the components are deployed in the management cluster.
 
-The architecture of KubeWorkz described in the figure below includes interaction with users, interaction with Kubernetes API Server, Prometheus monitoring and self-developed log collection components.
+The architecture of Kubeworkz described in the figure below includes interaction with users, interaction with Kubernetes API Server, Prometheus monitoring and self-developed log collection components.
 
 ## Quick Start
 
@@ -88,7 +88,7 @@ Contact us on Discord
 ## License
 
 ```
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

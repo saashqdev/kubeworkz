@@ -1,5 +1,5 @@
 /*
-Copyright 2024 KubeWorkz Authors
+Copyright 2024 Kubeworkz Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ limitations under the License.
 package constants
 
 const (
-	// KubeWorkz all the begin
-	KubeWorkz = "kubeworkz"
+	// Kubeworkz all the begin
+	Kubeworkz = "kubeworkz"
 
 	// Warden is willing to kubeworkz
 	Warden = "warden"
@@ -139,7 +139,7 @@ const (
 )
 
 const (
-	// KubeNodeTaint is node taint that managed by KubeWorkz
+	// KubeNodeTaint is node taint that managed by Kubeworkz
 	KubeNodeTaint = "node.kubeworkz.io"
 
 	// KubeCnAnnotation is the annotation of cluster contains cluster cn name

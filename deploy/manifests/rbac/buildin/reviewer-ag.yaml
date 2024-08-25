@@ -705,7 +705,7 @@ rules:
       - get
       - list
       - watch
-  ### KubeWorkz resource below
+  ### Kubeworkz resource below
   - apiGroups:
       - "*"
     resources:
@@ -842,7 +842,7 @@ rules:
       - get
       - list
       - watch
-  ### KubeWorkz dependence resource bellow
+  ### Kubeworkz dependence resource bellow
   - apiGroups:
       - "*"  #monitoring.kubeworkz.io
     resources:
