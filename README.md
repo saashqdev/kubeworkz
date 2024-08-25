@@ -10,7 +10,7 @@ Kubeworkz is an open source enterprise-level container platform that provides en
 ## Features
 
 - **Out of the box**
-  - The learning curve is gentle, integrating functions such as unified authentication, multi-cluster management, monitoring, logs, and alerts to release productivity
+  - The learning curve is gentle, integrating functions such as unified authentication, multi-cluster management, monitoring, logs, and alerts to enhance productivity
   - Operation friendly, providing visual management and unified operation of Kubernetes resources, with comprehensive self-monitoring capabilities
   - Quick deployment, providing [All in One](https://kubeworkz.io/docs/quick-start/installation/) Minimized deployment mode and providing High Availability Deployment for production
 
